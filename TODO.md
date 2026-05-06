@@ -53,30 +53,38 @@ Last updated: 2026-05-06
 
 ## IN PROGRESS
 
-- [ ] BLOC 3: Learning & Vocabulary Module
+- [ ] BLOC 3: Vocabulary sub-module
 
 ---
 
-## TODO — BLOC 3: Learning & Vocabulary Module
+## DONE — BLOC 3: Learning (Lessons)
 
-- [ ] Lesson domain model
-- [ ] LessonEntity + repository
-- [ ] AuthUseCase (port in)
-- [ ] UserRepositoryPort (port out)
-- [ ] RegisterUseCase implementation
-- [ ] LoginUseCase implementation
-- [ ] JwtService (generate, validate, extract)
-- [ ] JwtAuthenticationFilter
-- [ ] AuthController (register, login, refresh, logout)
-- [ ] RefreshTokenEntity + Repository
-- [ ] UserDetailsService implementation
+- [x] Lesson domain model (Lesson, LessonType, LessonLevel)
+- [x] LessonCompletedEvent (domain event)
+- [x] LessonEntity + JpaLessonRepository
+- [x] LessonPersistenceMapper
+- [x] LessonRepositoryAdapter (implements LessonRepositoryPort)
+- [x] Ports in: CreateLessonPort, UpdateLessonPort, GetLessonPort, CompleteLessonPort, DeleteLessonPort
+- [x] Port out: LessonRepositoryPort
+- [x] Commands: CreateLessonCommand, UpdateLessonCommand
+- [x] DTO: LessonDto
+- [x] CreateLessonUseCase
+- [x] UpdateLessonUseCase
+- [x] GetLessonUseCase (by id, type, level, type+level, published)
+- [x] CompleteLessonUseCase (publishes LessonCompletedEvent to Kafka)
+- [x] DeleteLessonUseCase
+- [x] LessonController (CRUD + filters + complete)
+- [x] Request DTOs: CreateLessonRequest, UpdateLessonRequest
+- [x] Security: GET /api/lessons public, POST/PUT/DELETE authenticated
+- [x] Unit tests: CreateLessonUseCaseTest (3 tests)
+- [x] Unit tests: UpdateLessonUseCaseTest (3 tests)
+- [x] Unit tests: GetLessonUseCaseTest (5 tests)
+- [x] Unit tests: CompleteLessonUseCaseTest (2 tests)
+- [x] Unit tests: DeleteLessonUseCaseTest (2 tests)
+- [x] Compilation verified OK (15 tests pass)
 
-## TODO — BLOC 3: Learning & Vocabulary Module
+## TODO — BLOC 3: Vocabulary sub-module
 
-- [ ] Lesson domain model
-- [ ] LessonEntity + repository
-- [ ] LessonUseCase (CRUD + complete)
-- [ ] LessonController
 - [ ] Vocabulary domain model
 - [ ] VocabularyEntity + repository
 - [ ] VocabularyUseCase (CRUD + search)
