@@ -196,14 +196,58 @@ Last updated: 2026-05-06
 - [x] Unit tests: InterviewSessionTest — domain model (10 tests)
 - [x] Compilation verified OK (136 total tests pass)
 
-## TODO — BLOC 7: Progress & Analytics
+## DONE — BLOC 7: Correction Intelligente (Enhanced — Pipeline, Multi-dimensional, Context-Aware)
+
+- [x] Domain models: TextType, Severity, AnnotationCategory enums
+- [x] Annotation domain model (positioned annotations with severity, category, rule tracking)
+- [x] CorrectionScore domain model (6 dimensions: Grammar, Vocabulary, Politeness, Clarity, Naturalness, Professional)
+- [x] CorrectionContext domain model (context-aware: EMAIL_TO_CLIENT, STANDUP_REPORT, CODE_REVIEW, INTERVIEW, SLACK, COMMIT)
+- [x] CorrectionRule domain model (extensible rule engine with pattern, contexts, level)
+- [x] CorrectionSession domain model (full session with score, annotations, severity counts)
+- [x] WeaknessPattern domain model (recurring error tracking, isRecurring threshold)
+- [x] TextCorrectedEvent (domain event)
+- [x] CorrectionStep interface (Chain of Responsibility)
+- [x] GrammarStep (particle errors, conjugation, redundancy detection)
+- [x] VocabularyStep (casual→professional suggestions, IT vocabulary detection)
+- [x] PolitenessStep (keigo detection, desu/masu, casual endings, context-aware strictness)
+- [x] ClarityStep (sentence length, structure analysis)
+- [x] NaturalnessStep (unnatural patterns, connector usage, Japanese detection)
+- [x] ProfessionalStep (opener/closer detection, IT terms, emoji in formal)
+- [x] CorrectionEngine interface (Strategy Pattern for future AI integration)
+- [x] PatternCorrectionEngine (regex-based rule engine, MVP)
+- [x] CorrectionMerger (deduplication, overlap detection, severity-priority sorting)
+- [x] CorrectionPipeline (orchestrates steps + engine + merger)
+- [x] Ports in: CorrectTextPort, GetCorrectionHistoryPort, GetWeaknessReportPort
+- [x] Ports out: CorrectionSessionRepositoryPort, CorrectionRuleRepositoryPort, WeaknessPatternRepositoryPort
+- [x] CorrectTextUseCase (full pipeline execution + weakness tracking + Kafka event)
+- [x] GetCorrectionHistoryUseCase (user history + session by ID with auth check)
+- [x] GetWeaknessReportUseCase (aggregated weakness report with averages)
+- [x] CorrectionSessionEntity + CorrectionAnnotationEntity + CorrectionRuleEntity + WeaknessPatternEntity
+- [x] JpaCorrectionSessionRepository + JpaCorrectionRuleRepository + JpaWeaknessPatternRepository
+- [x] CorrectionSessionPersistenceMapper + CorrectionRulePersistenceMapper + WeaknessPatternPersistenceMapper
+- [x] CorrectionSessionRepositoryAdapter + CorrectionRuleRepositoryAdapter + WeaknessPatternRepositoryAdapter
+- [x] CorrectionController (4 endpoints: correct, history, session, weakness-report)
+- [x] CorrectTextRequest with @Size(max=5000) validation
+- [x] V6 migration: correction_sessions, correction_annotations, correction_rules, weakness_patterns + 8 seed rules
+- [x] Kafka: correction-events topic
+- [x] Unit tests: CorrectionPipelineTest (5 tests)
+- [x] Unit tests: GrammarStepTest (6 tests)
+- [x] Unit tests: PolitenessStepTest (5 tests)
+- [x] Unit tests: PatternCorrectionEngineTest (4 tests)
+- [x] Unit tests: CorrectionMergerTest (4 tests)
+- [x] Unit tests: CorrectTextUseCaseTest (5 tests)
+- [x] Unit tests: CorrectionSessionTest (4 tests)
+- [x] Unit tests: WeaknessPatternTest (3 tests)
+- [x] Compilation verified OK (172 total tests pass)
+
+## TODO — BLOC 8: Progress & Analytics
 
 - [ ] Progress domain model
 - [ ] ProgressUseCase (update, get)
 - [ ] ProgressController
 - [ ] Kafka consumers for progress updates
 
-## TODO — BLOC 8: Shadow Day (Innovation)
+## TODO — BLOC 9: Shadow Day (Innovation)
 
 - [ ] ShadowDaySession domain model
 - [ ] Scenario generator
@@ -211,35 +255,35 @@ Last updated: 2026-05-06
 - [ ] Cultural validator
 - [ ] ShadowDayController
 
-## TODO — BLOC 9: Cultural Intelligence (Innovation)
+## TODO — BLOC 10: Cultural Intelligence (Innovation)
 
 - [ ] CulturalScenario domain model
 - [ ] Cultural score system
 - [ ] KeigoValidator
 - [ ] CulturalController
 
-## TODO — BLOC 10: Code in Japanese (Innovation)
+## TODO — BLOC 11: Code in Japanese (Innovation)
 
 - [ ] CodeReviewExercise domain model
 - [ ] PRWriting exercises
 - [ ] CommitMessage validator
 - [ ] CodeJapaneseController
 
-## TODO — BLOC 11: Real Content Engine (Innovation)
+## TODO — BLOC 12: Real Content Engine (Innovation)
 
 - [ ] Content ingestion pipeline
 - [ ] Annotation engine
 - [ ] Personalized content selector
 - [ ] RealContentController
 
-## TODO — BLOC 12: Portfolio & Recruiter (Innovation)
+## TODO — BLOC 13: Portfolio & Recruiter (Innovation)
 
 - [ ] PublicProfile domain model
 - [ ] Badge system
 - [ ] Portfolio sharing
 - [ ] RecruiterController
 
-## TODO — BLOC 13: Notification & CV Generator
+## TODO — BLOC 14: Notification & CV Generator
 
 - [ ] Kafka event consumers
 - [ ] Email notification service
@@ -281,4 +325,4 @@ Last updated: 2026-05-06
 
 ## NEXT BLOC
 
-**BLOC 7: Progress & Analytics** — Track user progress across all modules, aggregate stats, and learning insights.
+**BLOC 8: Progress & Analytics** — Track user progress across all modules, aggregate stats, and learning insights.

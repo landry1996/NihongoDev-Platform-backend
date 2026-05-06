@@ -62,6 +62,10 @@ app:
         name: vocabulary-events
         partitions: 3
         replicas: 1
+      correction-events:
+        name: correction-events
+        partitions: 3
+        replicas: 1
       notification-events:
         name: notification-events
         partitions: 3
