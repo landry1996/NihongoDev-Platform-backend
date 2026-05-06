@@ -8,46 +8,51 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaConfig {
 
-    public static final String USER_EVENTS_TOPIC = "user-events";
-    public static final String LESSON_EVENTS_TOPIC = "lesson-events";
-    public static final String QUIZ_EVENTS_TOPIC = "quiz-events";
-    public static final String INTERVIEW_EVENTS_TOPIC = "interview-events";
-    public static final String PROGRESS_EVENTS_TOPIC = "progress-events";
-    public static final String VOCABULARY_EVENTS_TOPIC = "vocabulary-events";
-    public static final String NOTIFICATION_EVENTS_TOPIC = "notification-events";
+    private final KafkaTopicsProperties topicsProperties;
+
+    public KafkaConfig(KafkaTopicsProperties topicsProperties) {
+        this.topicsProperties = topicsProperties;
+    }
 
     @Bean
     public NewTopic userEventsTopic() {
-        return TopicBuilder.name(USER_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getUserEvents());
     }
 
     @Bean
     public NewTopic lessonEventsTopic() {
-        return TopicBuilder.name(LESSON_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getLessonEvents());
     }
 
     @Bean
     public NewTopic quizEventsTopic() {
-        return TopicBuilder.name(QUIZ_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getQuizEvents());
     }
 
     @Bean
     public NewTopic interviewEventsTopic() {
-        return TopicBuilder.name(INTERVIEW_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getInterviewEvents());
     }
 
     @Bean
     public NewTopic progressEventsTopic() {
-        return TopicBuilder.name(PROGRESS_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getProgressEvents());
     }
 
     @Bean
     public NewTopic vocabularyEventsTopic() {
-        return TopicBuilder.name(VOCABULARY_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getVocabularyEvents());
     }
 
     @Bean
     public NewTopic notificationEventsTopic() {
-        return TopicBuilder.name(NOTIFICATION_EVENTS_TOPIC).partitions(3).replicas(1).build();
+        return buildTopic(topicsProperties.getNotificationEvents());
+    }
+
+    private NewTopic buildTopic(KafkaTopicsProperties.TopicDef def) {
+        return TopicBuilder.name(def.getName())
+                .partitions(def.getPartitions())
+                .replicas(def.getReplicas())
+                .build();
     }
 }

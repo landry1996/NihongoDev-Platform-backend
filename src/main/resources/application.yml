@@ -36,3 +36,33 @@ app:
     secret: ${JWT_SECRET}
     expiration-ms: 3600000
     refresh-expiration-ms: 604800000
+  kafka:
+    topics:
+      user-events:
+        name: user-events
+        partitions: 3
+        replicas: 1
+      lesson-events:
+        name: lesson-events
+        partitions: 3
+        replicas: 1
+      quiz-events:
+        name: quiz-events
+        partitions: 3
+        replicas: 1
+      interview-events:
+        name: interview-events
+        partitions: 3
+        replicas: 1
+      progress-events:
+        name: progress-events
+        partitions: 3
+        replicas: 1
+      vocabulary-events:
+        name: vocabulary-events
+        partitions: 3
+        replicas: 1
+      notification-events:
+        name: notification-events
+        partitions: 3
+        replicas: 1
