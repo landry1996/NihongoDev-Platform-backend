@@ -156,13 +156,45 @@ Last updated: 2026-05-06
 - [x] Unit tests: QuizAttemptTest — domain model (9 tests)
 - [x] Compilation verified OK (45 tests pass)
 
-## TODO — BLOC 6: Interview Simulation Module
+## DONE — BLOC 6: Interview Simulation (Enhanced — Multi-dimensional scoring, Strategy evaluation)
 
-- [ ] InterviewSession domain model
-- [ ] Answer domain model
-- [ ] InterviewUseCase (start, answer, complete)
-- [ ] InterviewController
-- [ ] AI Correction integration (port out)
+- [x] InterviewSession domain model (phases, multi-dimensional scores, pass/fail)
+- [x] InterviewQuestion domain model (bank with expectedKeywords, modelAnswer, scoringCriteria)
+- [x] InterviewAnswer domain model (4 score dimensions + overall)
+- [x] InterviewFeedback domain model (strengths, improvements, grammarNotes, vocabularySuggestions)
+- [x] InterviewType enum (HR_JAPANESE, TECH_JAVA, TECH_SPRING, TECH_AWS, BEHAVIORAL, SELF_INTRODUCTION, BUSINESS_JAPANESE)
+- [x] InterviewDifficulty enum (BEGINNER, INTERMEDIATE, ADVANCED)
+- [x] InterviewPhase enum (INTRODUCTION, MAIN_QUESTIONS, FOLLOW_UP, CLOSING)
+- [x] SessionStatus enum (SCHEDULED, IN_PROGRESS, COMPLETED, ABANDONED)
+- [x] Domain events: InterviewStartedEvent, InterviewAnswerEvaluatedEvent, InterviewCompletedEvent
+- [x] Strategy Pattern: AnswerEvaluator interface + 3 evaluators (KeywordBased, ReferenceAnswer, Structure)
+- [x] AnswerEvaluatorFactory (EnumMap-based, maps interview type to evaluator)
+- [x] KeywordBasedEvaluator: keyword detection + language/cultural scoring (keigo detection)
+- [x] ReferenceAnswerEvaluator: Jaccard similarity + vocabulary suggestions
+- [x] StructureEvaluator: STAR method detection + intro/conclusion analysis
+- [x] Ports in: StartInterviewPort, GetNextQuestionPort, SubmitInterviewAnswerPort, CompleteInterviewPort, GetInterviewHistoryPort
+- [x] Ports out: InterviewSessionRepositoryPort, InterviewQuestionRepositoryPort, InterviewAnswerRepositoryPort
+- [x] Commands: StartInterviewCommand, SubmitInterviewAnswerCommand
+- [x] DTOs: InterviewSessionDto, InterviewQuestionDto, InterviewFeedbackDto, InterviewAnswerResultDto
+- [x] StartInterviewUseCase (question selection, shuffle, event publishing)
+- [x] GetNextQuestionUseCase (session validation, question retrieval)
+- [x] SubmitInterviewAnswerUseCase (evaluation + scoring + session advancement + event)
+- [x] CompleteInterviewUseCase (final score + pass/fail + event)
+- [x] GetInterviewHistoryUseCase (user history + session details)
+- [x] InterviewQuestionEntity + InterviewSessionEntity + InterviewAnswerEntity
+- [x] JpaInterviewQuestionRepository + JpaInterviewSessionRepository + JpaInterviewAnswerRepository
+- [x] InterviewQuestionPersistenceMapper + InterviewSessionPersistenceMapper + InterviewAnswerPersistenceMapper
+- [x] InterviewQuestionRepositoryAdapter + InterviewSessionRepositoryAdapter + InterviewAnswerRepositoryAdapter
+- [x] InterviewController (6 endpoints: start, next-question, answer, complete, history, session details)
+- [x] Request DTOs: StartInterviewRequest, SubmitInterviewAnswerRequest
+- [x] V5 migration: interview_questions, interview_sessions, interview_answers tables + seed data (14 questions)
+- [x] Kafka: interview-events topic (already configured)
+- [x] Unit tests: StartInterviewUseCaseTest (4 tests)
+- [x] Unit tests: SubmitInterviewAnswerUseCaseTest (6 tests)
+- [x] Unit tests: CompleteInterviewUseCaseTest (5 tests)
+- [x] Unit tests: AnswerEvaluatorFactoryTest (8 tests)
+- [x] Unit tests: InterviewSessionTest — domain model (10 tests)
+- [x] Compilation verified OK (136 total tests pass)
 
 ## TODO — BLOC 7: Progress & Analytics
 
@@ -249,4 +281,4 @@ Last updated: 2026-05-06
 
 ## NEXT BLOC
 
-**BLOC 6: Interview Simulation Module** — Interactive IT interview simulation with AI correction.
+**BLOC 7: Progress & Analytics** — Track user progress across all modules, aggregate stats, and learning insights.
