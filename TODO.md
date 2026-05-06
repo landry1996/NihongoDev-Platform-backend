@@ -51,10 +51,6 @@ Last updated: 2026-05-06
 
 ---
 
-## IN PROGRESS
-
-- [ ] BLOC 5: Quiz Module
-
 ---
 
 ## DONE — BLOC 3: Learning (Lessons)
@@ -121,14 +117,46 @@ Last updated: 2026-05-06
 - [x] Unit tests: VocabularyMasteryTest — SRS algorithm (6 tests)
 - [x] Compilation verified OK (25 tests pass)
 
-## TODO — BLOC 4: Quiz Module
+## DONE — BLOC 5: Quiz Module (Enhanced — Multi-mode, Adaptive, Streak)
 
-- [ ] Quiz domain model
-- [ ] QuizEntity + QuestionEntity
-- [ ] QuizUseCase (create, submit, score)
-- [ ] QuizController
+- [x] Quiz domain model (Quiz, Question, QuizAttempt, QuizResult)
+- [x] QuizMode enum (CLASSIC, TIMED, SURVIVAL, SPRINT, REVIEW)
+- [x] QuestionType enum (MULTIPLE_CHOICE, TRUE_FALSE, TEXT_INPUT, MATCHING)
+- [x] DifficultyLevel enum (EASY, MEDIUM, HARD)
+- [x] AttemptStatus enum (IN_PROGRESS, COMPLETED, ABANDONED, GAME_OVER)
+- [x] QuizCompletedEvent (domain event)
+- [x] Strategy Pattern: QuestionCorrector interface + 4 correctors (MultipleChoice, TrueFalse, TextInput, Matching)
+- [x] QuestionCorrectorFactory (EnumMap-based static factory)
+- [x] ScoreCalculator (time bonus + streak multiplier + difficulty multiplier)
+- [x] Ports in: CreateQuizPort, GetQuizPort, StartQuizPort, SubmitAnswerPort, CompleteQuizPort, GetQuizHistoryPort
+- [x] Ports out: QuizRepositoryPort, QuestionRepositoryPort, QuizAttemptRepositoryPort, QuizResultRepositoryPort
+- [x] Commands: CreateQuizCommand, AddQuestionCommand, SubmitAnswerCommand
+- [x] DTOs: QuizDto, QuestionDto, QuizAttemptDto, AnswerResultDto, QuizResultDto
+- [x] CreateQuizUseCase (quiz + questions)
+- [x] GetQuizUseCase (by id, lesson, published)
+- [x] StartQuizUseCase (mode selection, max attempts check)
+- [x] SubmitAnswerUseCase (correction + streak + score + game over)
+- [x] CompleteQuizUseCase (result calculation + event publishing)
+- [x] GetQuizHistoryUseCase (user history + result by attempt)
+- [x] QuizEntity + QuestionEntity + QuizAttemptEntity + QuizResultEntity
+- [x] JpaQuizRepository + JpaQuestionRepository + JpaQuizAttemptRepository + JpaQuizResultRepository
+- [x] QuizPersistenceMapper + QuestionPersistenceMapper + QuizAttemptPersistenceMapper + QuizResultPersistenceMapper
+- [x] QuizRepositoryAdapter + QuestionRepositoryAdapter + QuizAttemptRepositoryAdapter + QuizResultRepositoryAdapter
+- [x] QuizController (9 endpoints: create quiz/question, get, start, answer, complete, history, results)
+- [x] Request DTOs: CreateQuizRequest, AddQuestionRequest, SubmitAnswerRequest, StartQuizRequest
+- [x] Security: GET /api/quizzes/published & /api/quizzes/{id} public, all others authenticated
+- [x] V4 migration: quiz_attempts, quiz_results tables + indexes, quiz/questions enhancements
+- [x] Kafka: quiz-events topic + QuizCompletedEvent
+- [x] Unit tests: CreateQuizUseCaseTest (4 tests)
+- [x] Unit tests: StartQuizUseCaseTest (6 tests)
+- [x] Unit tests: SubmitAnswerUseCaseTest (8 tests)
+- [x] Unit tests: CompleteQuizUseCaseTest (5 tests)
+- [x] Unit tests: ScoreCalculatorTest (6 tests)
+- [x] Unit tests: QuestionCorrectorFactoryTest (7 tests)
+- [x] Unit tests: QuizAttemptTest — domain model (9 tests)
+- [x] Compilation verified OK (45 tests pass)
 
-## TODO — BLOC 5: Interview Simulation Module
+## TODO — BLOC 6: Interview Simulation Module
 
 - [ ] InterviewSession domain model
 - [ ] Answer domain model
@@ -136,14 +164,14 @@ Last updated: 2026-05-06
 - [ ] InterviewController
 - [ ] AI Correction integration (port out)
 
-## TODO — BLOC 6: Progress & Analytics
+## TODO — BLOC 7: Progress & Analytics
 
 - [ ] Progress domain model
 - [ ] ProgressUseCase (update, get)
 - [ ] ProgressController
 - [ ] Kafka consumers for progress updates
 
-## TODO — BLOC 7: Shadow Day (Innovation)
+## TODO — BLOC 8: Shadow Day (Innovation)
 
 - [ ] ShadowDaySession domain model
 - [ ] Scenario generator
@@ -151,35 +179,35 @@ Last updated: 2026-05-06
 - [ ] Cultural validator
 - [ ] ShadowDayController
 
-## TODO — BLOC 8: Cultural Intelligence (Innovation)
+## TODO — BLOC 9: Cultural Intelligence (Innovation)
 
 - [ ] CulturalScenario domain model
 - [ ] Cultural score system
 - [ ] KeigoValidator
 - [ ] CulturalController
 
-## TODO — BLOC 9: Code in Japanese (Innovation)
+## TODO — BLOC 10: Code in Japanese (Innovation)
 
 - [ ] CodeReviewExercise domain model
 - [ ] PRWriting exercises
 - [ ] CommitMessage validator
 - [ ] CodeJapaneseController
 
-## TODO — BLOC 10: Real Content Engine (Innovation)
+## TODO — BLOC 11: Real Content Engine (Innovation)
 
 - [ ] Content ingestion pipeline
 - [ ] Annotation engine
 - [ ] Personalized content selector
 - [ ] RealContentController
 
-## TODO — BLOC 11: Portfolio & Recruiter (Innovation)
+## TODO — BLOC 12: Portfolio & Recruiter (Innovation)
 
 - [ ] PublicProfile domain model
 - [ ] Badge system
 - [ ] Portfolio sharing
 - [ ] RecruiterController
 
-## TODO — BLOC 12: Notification & CV Generator
+## TODO — BLOC 13: Notification & CV Generator
 
 - [ ] Kafka event consumers
 - [ ] Email notification service
@@ -221,4 +249,4 @@ Last updated: 2026-05-06
 
 ## NEXT BLOC
 
-**BLOC 2: Auth & User Module** — JWT authentication, registration, login, refresh token, user CRUD.
+**BLOC 6: Interview Simulation Module** — Interactive IT interview simulation with AI correction.

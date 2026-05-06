@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/lessons", "/api/lessons/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/vocabulary", "/api/vocabulary/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/quizzes/published", "/api/quizzes/{id}").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
