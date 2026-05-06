@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///nihongodev_test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
+
+app:
+  jwt:
+    secret: test-secret-key-for-testing-only-minimum-256-bits-long-string
+    expiration-ms: 3600000
+    refresh-expiration-ms: 604800000

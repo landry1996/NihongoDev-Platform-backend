@@ -1,0 +1,35 @@
+# Build
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring
+application-secret.yml
+
+# Env
+.env
+*.env.local
+
+# Logs
+*.log
+logs/
+
+# Maven
+.mvn/
+
+# Test
+/coverage/

@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nihongodev
+    username: nihongodev
+    password: nihongodev
+  jpa:
+    show-sql: true
+  redis:
+    host: localhost
+    port: 6379
+
+logging:
+  level:
+    com.nihongodev: DEBUG
+    org.springframework.security: DEBUG
