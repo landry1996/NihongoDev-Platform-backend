@@ -53,7 +53,7 @@ Last updated: 2026-05-06
 
 ## IN PROGRESS
 
-- [ ] BLOC 3: Vocabulary sub-module
+- [ ] BLOC 5: Quiz Module
 
 ---
 
@@ -83,13 +83,43 @@ Last updated: 2026-05-06
 - [x] Unit tests: DeleteLessonUseCaseTest (2 tests)
 - [x] Compilation verified OK (15 tests pass)
 
-## TODO — BLOC 3: Vocabulary sub-module
+## DONE — BLOC 4: Vocabulary IT Japanese (Enhanced)
 
-- [ ] Vocabulary domain model
-- [ ] VocabularyEntity + repository
-- [ ] VocabularyUseCase (CRUD + search)
-- [ ] VocabularyController
-- [ ] Seed data (initial IT vocabulary)
+- [x] Vocabulary domain model (Vocabulary, VocabularyCategory, VocabularyLevel)
+- [x] VocabularyMastery domain model (SRS — Spaced Repetition System)
+- [x] VocabularyRelation domain model (Word Graph)
+- [x] MasteryLevel enum (NEW, LEARNING, REVIEWING, MASTERED)
+- [x] RelationType enum (SYNONYM, ANTONYM, DERIVATIVE, RELATED, COMPOUND)
+- [x] VocabularyQuizGeneratedEvent (domain event)
+- [x] VocabularyEntity + VocabularyMasteryEntity + VocabularyRelationEntity
+- [x] JpaVocabularyRepository (with JpaSpecificationExecutor + full-text search)
+- [x] JpaVocabularyMasteryRepository + JpaVocabularyRelationRepository
+- [x] VocabularySpecification (Specification Pattern for advanced search)
+- [x] VocabularyPersistenceMapper + VocabularyMasteryPersistenceMapper + VocabularyRelationPersistenceMapper
+- [x] VocabularyRepositoryAdapter + VocabularyMasteryRepositoryAdapter + VocabularyRelationRepositoryAdapter
+- [x] Ports in: CreateVocabularyPort (single + batch), UpdateVocabularyPort, DeleteVocabularyPort,
+      SearchVocabularyPort, ReviewVocabularyPort, GenerateVocabularyQuizPort
+- [x] Ports out: VocabularyRepositoryPort, VocabularyMasteryRepositoryPort, VocabularyRelationRepositoryPort
+- [x] Commands: CreateVocabularyCommand, UpdateVocabularyCommand, SearchVocabularyCommand, GenerateVocabularyQuizCommand
+- [x] DTOs: VocabularyDto, VocabularyMasteryDto, VocabularyQuizDto, VocabularyQuizItemDto
+- [x] CreateVocabularyUseCase (single + batch import)
+- [x] UpdateVocabularyUseCase
+- [x] DeleteVocabularyUseCase
+- [x] SearchVocabularyUseCase (full-text + filters)
+- [x] ReviewVocabularyUseCase (SM-2 algorithm)
+- [x] GenerateVocabularyQuizUseCase (FR_TO_JP, JP_TO_FR, EN_TO_JP, CONTEXT quiz types)
+- [x] VocabularyController (CRUD + batch + search + review + quiz)
+- [x] Request DTOs: CreateVocabularyRequest, UpdateVocabularyRequest, GenerateQuizRequest, ReviewRequest
+- [x] V3 migration: vocabulary_mastery, vocabulary_relations tables + indexes
+- [x] Kafka: vocabulary-events topic + VocabularyQuizGeneratedEvent
+- [x] Unit tests: CreateVocabularyUseCaseTest (3 tests)
+- [x] Unit tests: UpdateVocabularyUseCaseTest (3 tests)
+- [x] Unit tests: DeleteVocabularyUseCaseTest (2 tests)
+- [x] Unit tests: SearchVocabularyUseCaseTest (4 tests)
+- [x] Unit tests: ReviewVocabularyUseCaseTest (4 tests)
+- [x] Unit tests: GenerateVocabularyQuizUseCaseTest (3 tests)
+- [x] Unit tests: VocabularyMasteryTest — SRS algorithm (6 tests)
+- [x] Compilation verified OK (25 tests pass)
 
 ## TODO — BLOC 4: Quiz Module
 

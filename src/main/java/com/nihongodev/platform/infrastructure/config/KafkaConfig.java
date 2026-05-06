@@ -13,6 +13,7 @@ public class KafkaConfig {
     public static final String QUIZ_EVENTS_TOPIC = "quiz-events";
     public static final String INTERVIEW_EVENTS_TOPIC = "interview-events";
     public static final String PROGRESS_EVENTS_TOPIC = "progress-events";
+    public static final String VOCABULARY_EVENTS_TOPIC = "vocabulary-events";
     public static final String NOTIFICATION_EVENTS_TOPIC = "notification-events";
 
     @Bean
@@ -38,6 +39,11 @@ public class KafkaConfig {
     @Bean
     public NewTopic progressEventsTopic() {
         return TopicBuilder.name(PROGRESS_EVENTS_TOPIC).partitions(3).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic vocabularyEventsTopic() {
+        return TopicBuilder.name(VOCABULARY_EVENTS_TOPIC).partitions(3).replicas(1).build();
     }
 
     @Bean
