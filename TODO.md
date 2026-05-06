@@ -14,30 +14,53 @@ Last updated: 2026-05-06
 - [x] Flyway migration V1 (initial schema)
 - [x] GlobalExceptionHandler + ApiErrorResponse
 - [x] Domain exceptions (Business, NotFound, Unauthorized)
-- [x] Domain models (User, Role, JapaneseLevel)
+- [x] Domain models (User, Role, JapaneseLevel, RefreshToken)
 - [x] Domain events (UserRegisteredEvent)
-- [x] Security config (CORS, stateless, JWT-ready)
-- [x] Kafka config (topics)
+- [x] Security config (CORS, stateless, JWT filter)
+- [x] Kafka config (topics) + KafkaEventPublisherAdapter
 - [x] OpenAPI/Swagger config
 - [x] Health controller
 - [x] .gitignore
 - [x] README.md
+- [x] **BLOC 2: Auth & User Module**
+- [x] UserEntity + RefreshTokenEntity (JPA)
+- [x] JpaUserRepository + JpaRefreshTokenRepository
+- [x] UserPersistenceMapper + RefreshTokenPersistenceMapper
+- [x] UserRepositoryAdapter + RefreshTokenRepositoryAdapter
+- [x] RegisterCommand / LoginCommand / ChangePasswordCommand / UpdateProfileCommand
+- [x] AuthResponse / UserDto
+- [x] Ports in: RegisterUserPort, LoginPort, RefreshTokenPort, LogoutPort, GetUserProfilePort, UpdateUserProfilePort, ChangePasswordPort
+- [x] Ports out: UserRepositoryPort, RefreshTokenRepositoryPort, PasswordEncoderPort, JwtPort, EventPublisherPort
+- [x] RegisterUserUseCase
+- [x] LoginUseCase
+- [x] RefreshTokenUseCase
+- [x] LogoutUseCase
+- [x] GetUserProfileUseCase
+- [x] UpdateUserProfileUseCase
+- [x] ChangePasswordUseCase
+- [x] JwtService (JJWT implementation)
+- [x] JwtAuthenticationFilter
+- [x] PasswordEncoderAdapter
+- [x] AuthController (register, login, refresh, logout)
+- [x] UserController (profile, update, change password)
+- [x] Request DTOs with validation (RegisterRequest, LoginRequest, etc.)
+- [x] Unit tests: RegisterUserUseCaseTest (3 tests)
+- [x] Unit tests: LoginUseCaseTest (4 tests)
+- [x] Unit tests: ChangePasswordUseCaseTest (3 tests)
+- [x] Compilation verified OK
 
 ---
 
 ## IN PROGRESS
 
-- [ ] Auth module (register, login, JWT, refresh token)
-- [ ] User persistence layer (JPA entity, repository, mapper)
+- [ ] BLOC 3: Learning & Vocabulary Module
 
 ---
 
-## TODO — BLOC 2: Auth & User Module
+## TODO — BLOC 3: Learning & Vocabulary Module
 
-- [ ] UserEntity (JPA)
-- [ ] UserRepository (Spring Data JPA)
-- [ ] UserPersistenceMapper (MapStruct)
-- [ ] RegisterCommand / LoginCommand
+- [ ] Lesson domain model
+- [ ] LessonEntity + repository
 - [ ] AuthUseCase (port in)
 - [ ] UserRepositoryPort (port out)
 - [ ] RegisterUseCase implementation

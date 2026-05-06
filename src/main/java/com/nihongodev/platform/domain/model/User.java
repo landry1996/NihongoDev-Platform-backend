@@ -20,18 +20,37 @@ public class User {
 
     public User() {}
 
-    public User(UUID id, String firstName, String lastName, String email, String password,
-                Role role, JapaneseLevel japaneseLevel, String objective) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.japaneseLevel = japaneseLevel;
-        this.objective = objective;
-        this.active = true;
-        this.createdAt = LocalDateTime.now();
+    public static User create(String firstName, String lastName, String email, String encodedPassword, Role role, JapaneseLevel level, String objective) {
+        User user = new User();
+        user.id = UUID.randomUUID();
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.password = encodedPassword;
+        user.role = role;
+        user.japaneseLevel = level != null ? level : JapaneseLevel.BEGINNER;
+        user.objective = objective;
+        user.active = true;
+        user.createdAt = LocalDateTime.now();
+        user.updatedAt = LocalDateTime.now();
+        return user;
+    }
+
+    public void changePassword(String newEncodedPassword) {
+        this.password = newEncodedPassword;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateProfile(String firstName, String lastName, JapaneseLevel level, String objective) {
+        if (firstName != null) this.firstName = firstName;
+        if (lastName != null) this.lastName = lastName;
+        if (level != null) this.japaneseLevel = level;
+        if (objective != null) this.objective = objective;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void deactivate() {
+        this.active = false;
         this.updatedAt = LocalDateTime.now();
     }
 
