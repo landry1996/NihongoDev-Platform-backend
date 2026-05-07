@@ -15,7 +15,6 @@ import com.nihongodev.platform.domain.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,8 +71,7 @@ public class CorrectTextUseCase implements CorrectTextPort {
                 userId, saved.getId(), textType.name(),
                 result.score().getOverallScore(),
                 result.annotations().size(),
-                saved.getErrorCount(),
-                LocalDateTime.now()
+                saved.getErrorCount()
         ));
 
         return mapToDto(saved);

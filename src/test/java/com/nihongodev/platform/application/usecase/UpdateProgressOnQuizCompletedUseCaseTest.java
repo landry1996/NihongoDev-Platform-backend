@@ -15,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,9 +44,8 @@ class UpdateProgressOnQuizCompletedUseCaseTest {
     @DisplayName("should create UserProgress if first activity for user")
     void shouldCreateProgressIfFirst() {
         UUID userId = UUID.randomUUID();
-        QuizCompletedEvent event = new QuizCompletedEvent(
-                userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
-                85.0, true, 5, "CLASSIC", LocalDateTime.now());
+        QuizCompletedEvent event = QuizCompletedEvent.of(userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
+                85.0, true, 5, "CLASSIC");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.QUIZ))
@@ -74,9 +72,8 @@ class UpdateProgressOnQuizCompletedUseCaseTest {
         UserProgress existing = UserProgress.initialize(userId);
         existing.recordActivity(ActivityType.QUIZ_COMPLETED, 70.0);
 
-        QuizCompletedEvent event = new QuizCompletedEvent(
-                userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 2",
-                90.0, true, 7, "CLASSIC", LocalDateTime.now());
+        QuizCompletedEvent event = QuizCompletedEvent.of(userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 2",
+                90.0, true, 7, "CLASSIC");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.of(existing));
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.QUIZ))
@@ -99,9 +96,8 @@ class UpdateProgressOnQuizCompletedUseCaseTest {
     void shouldSkipDuplicateEvent() {
         UUID userId = UUID.randomUUID();
         UUID attemptId = UUID.randomUUID();
-        QuizCompletedEvent event = new QuizCompletedEvent(
-                userId, UUID.randomUUID(), attemptId, "Quiz 1",
-                85.0, true, 5, "CLASSIC", LocalDateTime.now());
+        QuizCompletedEvent event = QuizCompletedEvent.of(userId, UUID.randomUUID(), attemptId, "Quiz 1",
+                85.0, true, 5, "CLASSIC");
 
         when(activityRepository.existsByUserIdAndReferenceIdAndActivityType(
                 userId, attemptId, ActivityType.QUIZ_COMPLETED)).thenReturn(true);
@@ -116,9 +112,8 @@ class UpdateProgressOnQuizCompletedUseCaseTest {
     @DisplayName("should publish ProgressUpdatedEvent")
     void shouldPublishEvent() {
         UUID userId = UUID.randomUUID();
-        QuizCompletedEvent event = new QuizCompletedEvent(
-                userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
-                80.0, true, 4, "CLASSIC", LocalDateTime.now());
+        QuizCompletedEvent event = QuizCompletedEvent.of(userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
+                80.0, true, 4, "CLASSIC");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.QUIZ))
@@ -138,9 +133,8 @@ class UpdateProgressOnQuizCompletedUseCaseTest {
     @DisplayName("should update module progress average score")
     void shouldUpdateModuleProgress() {
         UUID userId = UUID.randomUUID();
-        QuizCompletedEvent event = new QuizCompletedEvent(
-                userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
-                75.0, true, 3, "CLASSIC", LocalDateTime.now());
+        QuizCompletedEvent event = QuizCompletedEvent.of(userId, UUID.randomUUID(), UUID.randomUUID(), "Quiz 1",
+                75.0, true, 3, "CLASSIC");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.QUIZ))

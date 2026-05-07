@@ -4,14 +4,19 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record LessonCompletedEvent(
+        UUID eventId,
+        String eventType,
         UUID userId,
+        LocalDateTime occurredAt,
         UUID lessonId,
         String lessonTitle,
         String lessonType,
-        String lessonLevel,
-        LocalDateTime occurredAt
-) {
-    public static LessonCompletedEvent of(UUID userId, UUID lessonId, String lessonTitle, String lessonType, String lessonLevel) {
-        return new LessonCompletedEvent(userId, lessonId, lessonTitle, lessonType, lessonLevel, LocalDateTime.now());
+        String lessonLevel
+) implements DomainEvent {
+
+    public static LessonCompletedEvent of(UUID userId, UUID lessonId, String lessonTitle,
+                                          String lessonType, String lessonLevel) {
+        return new LessonCompletedEvent(UUID.randomUUID(), "LESSON_COMPLETED", userId, LocalDateTime.now(),
+                lessonId, lessonTitle, lessonType, lessonLevel);
     }
 }

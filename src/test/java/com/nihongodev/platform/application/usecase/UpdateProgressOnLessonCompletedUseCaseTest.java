@@ -15,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,8 +44,7 @@ class UpdateProgressOnLessonCompletedUseCaseTest {
     @DisplayName("should increment lesson counter and award 50 XP")
     void shouldIncrementLessonCounter() {
         UUID userId = UUID.randomUUID();
-        LessonCompletedEvent event = new LessonCompletedEvent(
-                userId, UUID.randomUUID(), "Lesson 1", "GRAMMAR", "N5", LocalDateTime.now());
+        LessonCompletedEvent event = LessonCompletedEvent.of(userId, UUID.randomUUID(), "Lesson 1", "GRAMMAR", "N5");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.LESSON))
@@ -70,8 +68,7 @@ class UpdateProgressOnLessonCompletedUseCaseTest {
     void shouldSkipDuplicate() {
         UUID userId = UUID.randomUUID();
         UUID lessonId = UUID.randomUUID();
-        LessonCompletedEvent event = new LessonCompletedEvent(
-                userId, lessonId, "Lesson 1", "GRAMMAR", "N5", LocalDateTime.now());
+        LessonCompletedEvent event = LessonCompletedEvent.of(userId, lessonId, "Lesson 1", "GRAMMAR", "N5");
 
         when(activityRepository.existsByUserIdAndReferenceIdAndActivityType(
                 userId, lessonId, ActivityType.LESSON_COMPLETED)).thenReturn(true);
@@ -85,8 +82,7 @@ class UpdateProgressOnLessonCompletedUseCaseTest {
     @DisplayName("should publish ProgressUpdatedEvent after lesson completion")
     void shouldPublishEvent() {
         UUID userId = UUID.randomUUID();
-        LessonCompletedEvent event = new LessonCompletedEvent(
-                userId, UUID.randomUUID(), "Lesson 1", "GRAMMAR", "N5", LocalDateTime.now());
+        LessonCompletedEvent event = LessonCompletedEvent.of(userId, UUID.randomUUID(), "Lesson 1", "GRAMMAR", "N5");
 
         when(progressRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(moduleProgressRepository.findByUserIdAndModuleType(userId, ModuleType.LESSON))

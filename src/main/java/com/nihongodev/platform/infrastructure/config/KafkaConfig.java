@@ -45,8 +45,23 @@ public class KafkaConfig {
     }
 
     @Bean
+    public NewTopic correctionEventsTopic() {
+        return buildTopic(topicsProperties.getCorrectionEvents());
+    }
+
+    @Bean
     public NewTopic notificationEventsTopic() {
         return buildTopic(topicsProperties.getNotificationEvents());
+    }
+
+    @Bean
+    public NewTopic cvGeneratorEventsTopic() {
+        return buildTopic(topicsProperties.getCvGeneratorEvents());
+    }
+
+    @Bean
+    public NewTopic deadLetterEventsTopic() {
+        return buildTopic(topicsProperties.getDeadLetterEvents());
     }
 
     private NewTopic buildTopic(KafkaTopicsProperties.TopicDef def) {

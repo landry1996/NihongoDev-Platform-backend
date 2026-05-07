@@ -42,8 +42,8 @@ public class UpdateProgressOnCorrectionCompletedUseCase implements UpdateProgres
 
         progress.recordActivity(ActivityType.CORRECTION_COMPLETED, event.overallScore());
         progress.updateGlobalScore(ActivityType.CORRECTION_COMPLETED, event.overallScore());
-        progress.updateStreak(event.correctedAt());
-        progress.setLastActivityAt(event.correctedAt());
+        progress.updateStreak(event.occurredAt());
+        progress.setLastActivityAt(event.occurredAt());
 
         progressRepository.save(progress);
 

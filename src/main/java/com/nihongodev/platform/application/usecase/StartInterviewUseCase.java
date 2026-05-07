@@ -59,7 +59,7 @@ public class StartInterviewUseCase implements StartInterviewPort {
 
         eventPublisher.publish("interview-events", InterviewStartedEvent.of(
                 userId, saved.getId(), command.interviewType().name(),
-                command.difficulty().name(), saved.getStartedAt()
+                command.difficulty().name()
         ));
 
         return mapToDto(saved);

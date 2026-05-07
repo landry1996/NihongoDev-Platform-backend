@@ -46,7 +46,7 @@ public class GeneratePitchUseCase implements GeneratePitchPort {
         GeneratedPitch saved = pitchRepository.save(pitch);
 
         eventPublisher.publish("cv-generator-events",
-                PitchGeneratedEvent.of(userId, saved.getId(), command.pitchType()));
+                PitchGeneratedEvent.of(userId, saved.getId(), command.pitchType().name()));
 
         return new GeneratedPitchDto(saved.getId(), saved.getPitchType(), saved.getContent(), saved.getGeneratedAt());
     }

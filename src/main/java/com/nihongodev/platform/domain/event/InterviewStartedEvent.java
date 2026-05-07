@@ -4,14 +4,17 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record InterviewStartedEvent(
+        UUID eventId,
+        String eventType,
         UUID userId,
+        LocalDateTime occurredAt,
         UUID sessionId,
         String interviewType,
-        String difficulty,
-        LocalDateTime startedAt
-) {
-    public static InterviewStartedEvent of(UUID userId, UUID sessionId, String interviewType,
-                                           String difficulty, LocalDateTime startedAt) {
-        return new InterviewStartedEvent(userId, sessionId, interviewType, difficulty, startedAt);
+        String difficulty
+) implements DomainEvent {
+
+    public static InterviewStartedEvent of(UUID userId, UUID sessionId, String interviewType, String difficulty) {
+        return new InterviewStartedEvent(UUID.randomUUID(), "INTERVIEW_STARTED", userId, LocalDateTime.now(),
+                sessionId, interviewType, difficulty);
     }
 }

@@ -4,13 +4,17 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record UserRegisteredEvent(
+        UUID eventId,
+        String eventType,
         UUID userId,
+        LocalDateTime occurredAt,
         String email,
         String firstName,
-        String role,
-        LocalDateTime occurredAt
-) {
+        String role
+) implements DomainEvent {
+
     public static UserRegisteredEvent of(UUID userId, String email, String firstName, String role) {
-        return new UserRegisteredEvent(userId, email, firstName, role, LocalDateTime.now());
+        return new UserRegisteredEvent(UUID.randomUUID(), "USER_REGISTERED", userId, LocalDateTime.now(),
+                email, firstName, role);
     }
 }

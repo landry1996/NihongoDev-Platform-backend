@@ -314,35 +314,56 @@ Last updated: 2026-05-07
 - [x] Unit tests: CvProfileTest (3), PitchAssemblerTest (3), IntroSectionENTest (4), IntroSectionJPTest (4), ExperienceSectionENTest (3), TechStackSectionTest (2), CreateCvProfileUseCaseTest (2), GeneratePitchUseCaseTest (3), ExportPitchUseCaseTest (3)
 - [x] Compilation verified OK (235 total tests pass)
 
-## TODO — BLOC 10: Cultural Intelligence (Innovation)
+## DONE — BLOC 10: Event-Driven Architecture Kafka (Refactoring & Hardening)
+
+- [x] DomainEvent interface (eventId, eventType, userId, occurredAt)
+- [x] Refactored 10 existing events to implement DomainEvent (Java 21 records)
+- [x] NotificationRequestedEvent (inert, declared for future use)
+- [x] KafkaEventPublisherAdapter enhanced (eventId keying, async callback, structured logging)
+- [x] KafkaConsumerConfig (DefaultErrorHandler + DeadLetterPublishingRecoverer)
+- [x] Exponential backoff retry: 1s, 2s, 4s (maxElapsedTime 7000ms)
+- [x] Non-retryable exceptions (IllegalArgumentException, NullPointerException) -> DLT direct
+- [x] ProgressEventConsumer simplified (no try/catch, validation -> IllegalArgumentException)
+- [x] Dead Letter Topic: dead-letter-events (partitions: 1, replicas: 1)
+- [x] spring.json.add.type.headers: true (producer)
+- [x] KafkaTopicsProperties + KafkaConfig: added deadLetterEvents, cvGeneratorEvents, correctionEvents beans
+- [x] Updated all use cases for new event factory signatures
+- [x] spring-kafka-test dependency added
+- [x] Unit tests: KafkaEventPublisherAdapterTest (4 tests)
+- [x] Unit tests: ProgressEventConsumerTest (6 tests)
+- [x] Unit tests: KafkaConsumerConfigTest (2 tests)
+- [x] Integration test: KafkaIntegrationTest (@EmbeddedKafka)
+- [x] 241 total tests pass, 0 failures
+
+## TODO — BLOC 11: Cultural Intelligence (Innovation)
 
 - [ ] CulturalScenario domain model
 - [ ] Cultural score system
 - [ ] KeigoValidator
 - [ ] CulturalController
 
-## TODO — BLOC 11: Code in Japanese (Innovation)
+## TODO — BLOC 12: Code in Japanese (Innovation)
 
 - [ ] CodeReviewExercise domain model
 - [ ] PRWriting exercises
 - [ ] CommitMessage validator
 - [ ] CodeJapaneseController
 
-## TODO — BLOC 12: Real Content Engine (Innovation)
+## TODO — BLOC 13: Real Content Engine (Innovation)
 
 - [ ] Content ingestion pipeline
 - [ ] Annotation engine
 - [ ] Personalized content selector
 - [ ] RealContentController
 
-## TODO — BLOC 13: Portfolio & Recruiter (Innovation)
+## TODO — BLOC 14: Portfolio & Recruiter (Innovation)
 
 - [ ] PublicProfile domain model
 - [ ] Badge system
 - [ ] Portfolio sharing
 - [ ] RecruiterController
 
-## TODO — BLOC 14: Notification & CV Generator
+## TODO — BLOC 15: Notification & CV Generator
 
 - [ ] Kafka event consumers
 - [ ] Email notification service
@@ -384,4 +405,4 @@ Last updated: 2026-05-07
 
 ## NEXT BLOC
 
-**BLOC 10: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.
+**BLOC 11: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.

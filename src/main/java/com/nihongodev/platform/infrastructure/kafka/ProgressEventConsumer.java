@@ -1,6 +1,9 @@
 package com.nihongodev.platform.infrastructure.kafka;
 
-import com.nihongodev.platform.application.port.in.*;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnQuizCompletedPort;
 import com.nihongodev.platform.domain.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,41 +32,38 @@ public class ProgressEventConsumer {
 
     @KafkaListener(topics = "lesson-events", groupId = "progress-consumer-group")
     public void handleLessonCompleted(LessonCompletedEvent event) {
-        log.info("Received LessonCompletedEvent for user: {}", event.userId());
-        try {
-            lessonCompletedPort.execute(event);
-        } catch (Exception e) {
-            log.error("Error processing LessonCompletedEvent for user {}: {}", event.userId(), e.getMessage(), e);
-        }
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=LESSON_COMPLETED, userId={}]", event.eventId(), event.userId());
+        lessonCompletedPort.execute(event);
     }
 
     @KafkaListener(topics = "quiz-events", groupId = "progress-consumer-group")
     public void handleQuizCompleted(QuizCompletedEvent event) {
-        log.info("Received QuizCompletedEvent for user: {}", event.userId());
-        try {
-            quizCompletedPort.execute(event);
-        } catch (Exception e) {
-            log.error("Error processing QuizCompletedEvent for user {}: {}", event.userId(), e.getMessage(), e);
-        }
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=QUIZ_COMPLETED, userId={}]", event.eventId(), event.userId());
+        quizCompletedPort.execute(event);
     }
 
     @KafkaListener(topics = "interview-events", groupId = "progress-consumer-group")
     public void handleInterviewCompleted(InterviewCompletedEvent event) {
-        log.info("Received InterviewCompletedEvent for user: {}", event.userId());
-        try {
-            interviewCompletedPort.execute(event);
-        } catch (Exception e) {
-            log.error("Error processing InterviewCompletedEvent for user {}: {}", event.userId(), e.getMessage(), e);
-        }
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=INTERVIEW_COMPLETED, userId={}]", event.eventId(), event.userId());
+        interviewCompletedPort.execute(event);
     }
 
     @KafkaListener(topics = "correction-events", groupId = "progress-consumer-group")
     public void handleCorrectionCompleted(TextCorrectedEvent event) {
-        log.info("Received TextCorrectedEvent for user: {}", event.userId());
-        try {
-            correctionCompletedPort.execute(event);
-        } catch (Exception e) {
-            log.error("Error processing TextCorrectedEvent for user {}: {}", event.userId(), e.getMessage(), e);
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=TEXT_CORRECTED, userId={}]", event.eventId(), event.userId());
+        correctionCompletedPort.execute(event);
+    }
+
+    private void validateEvent(DomainEvent event) {
+        if (event.eventId() == null) {
+            throw new IllegalArgumentException("eventId must not be null");
+        }
+        if (event.userId() == null) {
+            throw new IllegalArgumentException("userId must not be null");
         }
     }
 }

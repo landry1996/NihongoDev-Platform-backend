@@ -7,15 +7,19 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ProgressUpdatedEvent(
+        UUID eventId,
+        String eventType,
         UUID userId,
+        LocalDateTime occurredAt,
         long totalXp,
         ProgressLevel level,
         double globalScore,
-        ActivityType activityType,
-        LocalDateTime occurredAt
-) {
+        ActivityType activityType
+) implements DomainEvent {
+
     public static ProgressUpdatedEvent of(UUID userId, long totalXp, ProgressLevel level,
                                           double globalScore, ActivityType activityType) {
-        return new ProgressUpdatedEvent(userId, totalXp, level, globalScore, activityType, LocalDateTime.now());
+        return new ProgressUpdatedEvent(UUID.randomUUID(), "PROGRESS_UPDATED", userId, LocalDateTime.now(),
+                totalXp, level, globalScore, activityType);
     }
 }
