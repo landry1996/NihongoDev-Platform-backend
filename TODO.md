@@ -283,13 +283,36 @@ Last updated: 2026-05-07
 - [x] Unit tests: ProgressEventConsumerTest (5 tests — delegation, error handling)
 - [x] Compilation verified OK (36 new tests, all pass)
 
-## TODO — BLOC 9: Shadow Day (Innovation)
+## DONE — BLOC 9: CV Generator (Pitch & Self-Introduction)
 
-- [ ] ShadowDaySession domain model
-- [ ] Scenario generator
-- [ ] NPC simulator (LLM integration)
-- [ ] Cultural validator
-- [ ] ShadowDayController
+- [x] Domain enums: PitchType, TargetCompanyType, ExportFormat
+- [x] WorkExperience value object (company, role, durationMonths, highlights)
+- [x] CvProfile aggregate (one per user, JSONB lists, factory method)
+- [x] GeneratedPitch entity (full Markdown content, version history)
+- [x] PitchGeneratedEvent (domain event)
+- [x] Composable Pipeline Pattern: PitchSection interface + PitchAssembler
+- [x] 12 PitchSection implementations (EN/JP intro, experience, tech stack, motivation, certifications, closing, interview opening, project highlights)
+- [x] Java 21 switch expressions for TargetCompanyType tone adaptation in each section
+- [x] Ports in: CreateCvProfilePort, UpdateCvProfilePort, GetCvProfilePort, GeneratePitchPort, GetPitchHistoryPort, ExportPitchPort
+- [x] Ports out: CvProfileRepositoryPort, GeneratedPitchRepositoryPort
+- [x] Commands: CreateCvProfileCommand (nested WorkExperienceData), UpdateCvProfileCommand, GeneratePitchCommand
+- [x] DTOs: CvProfileDto, WorkExperienceDto, GeneratedPitchDto
+- [x] CreateCvProfileUseCase (duplicate check)
+- [x] UpdateCvProfileUseCase (partial update, null = no change)
+- [x] GetCvProfileUseCase
+- [x] GeneratePitchUseCase (load profile → assemble → save → publish event)
+- [x] GetPitchHistoryUseCase (history + latest by type)
+- [x] ExportPitchUseCase (MARKDOWN as-is, PLAIN_TEXT strips markdown, ownership check)
+- [x] V8 Flyway migration: cv_profiles (JSONB), generated_pitches tables + indexes
+- [x] CvProfileEntity (@JdbcTypeCode JSONB) + GeneratedPitchEntity
+- [x] JpaCvProfileRepository + JpaGeneratedPitchRepository
+- [x] CvProfilePersistenceMapper (ObjectMapper for JSONB) + GeneratedPitchPersistenceMapper
+- [x] CvProfileRepositoryAdapter + GeneratedPitchRepositoryAdapter
+- [x] PitchAssemblerConfig (@Configuration, wires 12 sections into 4 PitchType registries)
+- [x] CvGeneratorController (7 endpoints: POST/PUT/GET profile, POST generate, GET history/latest/export)
+- [x] Kafka: cv-generator-events topic (partitions: 3, replicas: 1)
+- [x] Unit tests: CvProfileTest (3), PitchAssemblerTest (3), IntroSectionENTest (4), IntroSectionJPTest (4), ExperienceSectionENTest (3), TechStackSectionTest (2), CreateCvProfileUseCaseTest (2), GeneratePitchUseCaseTest (3), ExportPitchUseCaseTest (3)
+- [x] Compilation verified OK (235 total tests pass)
 
 ## TODO — BLOC 10: Cultural Intelligence (Innovation)
 
@@ -361,4 +384,4 @@ Last updated: 2026-05-07
 
 ## NEXT BLOC
 
-**BLOC 9: Shadow Day (Innovation)** — Simulate a day working at a Japanese IT company with NPC interactions.
+**BLOC 10: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.
