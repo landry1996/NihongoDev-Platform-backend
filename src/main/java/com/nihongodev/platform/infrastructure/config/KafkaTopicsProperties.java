@@ -13,6 +13,7 @@ public class KafkaTopicsProperties {
     private TopicDef interviewEvents = new TopicDef();
     private TopicDef progressEvents = new TopicDef();
     private TopicDef vocabularyEvents = new TopicDef();
+    private TopicDef correctionEvents = new TopicDef();
     private TopicDef notificationEvents = new TopicDef();
 
     public TopicDef getUserEvents() { return userEvents; }
@@ -27,6 +28,8 @@ public class KafkaTopicsProperties {
     public void setProgressEvents(TopicDef progressEvents) { this.progressEvents = progressEvents; }
     public TopicDef getVocabularyEvents() { return vocabularyEvents; }
     public void setVocabularyEvents(TopicDef vocabularyEvents) { this.vocabularyEvents = vocabularyEvents; }
+    public TopicDef getCorrectionEvents() { return correctionEvents; }
+    public void setCorrectionEvents(TopicDef correctionEvents) { this.correctionEvents = correctionEvents; }
     public TopicDef getNotificationEvents() { return notificationEvents; }
     public void setNotificationEvents(TopicDef notificationEvents) { this.notificationEvents = notificationEvents; }
 

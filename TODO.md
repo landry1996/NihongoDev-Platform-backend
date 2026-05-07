@@ -1,6 +1,6 @@
 # NihongoDev Platform — TODO
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 ---
 
@@ -240,12 +240,48 @@ Last updated: 2026-05-06
 - [x] Unit tests: WeaknessPatternTest (3 tests)
 - [x] Compilation verified OK (172 total tests pass)
 
-## TODO — BLOC 8: Progress & Analytics
+## DONE — BLOC 8: Progress & Analytics (Enhanced — CQRS-light, Event-driven, Batch Statistics)
 
-- [ ] Progress domain model
-- [ ] ProgressUseCase (update, get)
-- [ ] ProgressController
-- [ ] Kafka consumers for progress updates
+- [x] Domain enums: ProgressLevel, ModuleType, ModuleStatus, ActivityType, Trend, RecommendationType, Priority
+- [x] Value objects: WeakArea (auto-prioritization), Recommendation (from weak areas)
+- [x] UserProgress aggregate (XP/Level system, weighted global score, streak tracking)
+- [x] ModuleProgress domain model (per-module avg/best score, completion %)
+- [x] LearningActivity domain model (immutable activity log with metadata)
+- [x] UserStatistics domain model (7d/30d/allTime averages, velocity, consistency, trend detection)
+- [x] ProgressUpdatedEvent (domain event)
+- [x] Ports IN: UpdateProgressOnLesson/Quiz/Interview/CorrectionCompleted, GetUserProgress, GetModuleProgress, GetUserActivityHistory, GetUserStatistics, GetPlatformAnalytics, RecalculateStatistics
+- [x] Ports OUT: ProgressRepositoryPort, ModuleProgressRepositoryPort, LearningActivityRepositoryPort, StatisticsRepositoryPort, AnalyticsQueryPort
+- [x] DTOs: UserProgressDto, ModuleProgressDto, LearningActivityDto, UserStatisticsDto, WeakAreaDto, RecommendationDto, PlatformAnalyticsDto, TopUserDto
+- [x] UpdateProgressOnQuizCompletedUseCase (idempotent, XP calculation, streak update, event publish)
+- [x] UpdateProgressOnLessonCompletedUseCase (base XP, no score weight)
+- [x] UpdateProgressOnInterviewCompletedUseCase (LocalDateTime.now() fallback for missing occurredAt)
+- [x] UpdateProgressOnCorrectionCompletedUseCase (correction score-weighted XP)
+- [x] GetUserProgressUseCase, GetModuleProgressUseCase, GetUserActivityHistoryUseCase (paginated)
+- [x] GetUserStatisticsUseCase (weak areas + recommendations)
+- [x] GetPlatformAnalyticsUseCase (admin dashboard: active users, avg scores, leaderboard)
+- [x] RecalculateStatisticsUseCase (batch job logic: averages, velocity, consistency, trend, weak areas)
+- [x] V7 Flyway migration: user_progress, module_progress, learning_activities, user_statistics tables
+- [x] JPA entities: UserProgressEntity, ModuleProgressEntity, LearningActivityEntity, UserStatisticsEntity
+- [x] JPA repositories with custom queries (distinct days active, user IDs with activity since)
+- [x] Persistence mappers: UserProgress, ModuleProgress, LearningActivity, UserStatistics (JSON serialization for weak areas/recommendations)
+- [x] Repository adapters: ProgressRepositoryAdapter, ModuleProgressRepositoryAdapter, LearningActivityRepositoryAdapter, StatisticsRepositoryAdapter, AnalyticsQueryAdapter
+- [x] ProgressEventConsumer (Kafka consumer for lesson-events, quiz-events, interview-events, correction-events)
+- [x] StatisticsRecalculationJob (@Scheduled every 15 minutes)
+- [x] StreakCalculationJob (@Scheduled daily at 2am — reset broken streaks)
+- [x] ProgressController (7 endpoints: progress, modules, module by type, activities, statistics, weak-areas, recommendations)
+- [x] AnalyticsController (2 endpoints: overview, top-users)
+- [x] @EnableScheduling on application class
+- [x] Kafka consumer config: JsonDeserializer + trusted packages
+- [x] KafkaTopicsProperties: added correctionEvents field
+- [x] KafkaEventPublisherAdapter: added correction-events to topic registry
+- [x] Unit tests: UserProgressTest (10 tests — XP, level-up, streak logic)
+- [x] Unit tests: ModuleProgressTest (6 tests — status transitions, average, best score)
+- [x] Unit tests: UpdateProgressOnQuizCompletedUseCaseTest (5 tests — create, increment, idempotent, event, module)
+- [x] Unit tests: UpdateProgressOnLessonCompletedUseCaseTest (3 tests — XP, idempotent, event)
+- [x] Unit tests: RecalculateStatisticsUseCaseTest (3 tests — recalculate, trend, weak areas)
+- [x] Unit tests: GetUserProgressUseCaseTest (2 tests — existing, new user)
+- [x] Unit tests: ProgressEventConsumerTest (5 tests — delegation, error handling)
+- [x] Compilation verified OK (36 new tests, all pass)
 
 ## TODO — BLOC 9: Shadow Day (Innovation)
 
@@ -325,4 +361,4 @@ Last updated: 2026-05-06
 
 ## NEXT BLOC
 
-**BLOC 8: Progress & Analytics** — Track user progress across all modules, aggregate stats, and learning insights.
+**BLOC 9: Shadow Day (Innovation)** — Simulate a day working at a Japanese IT company with NPC interactions.
