@@ -15,6 +15,7 @@ public class KafkaTopicsProperties {
     private TopicDef vocabularyEvents = new TopicDef();
     private TopicDef correctionEvents = new TopicDef();
     private TopicDef notificationEvents = new TopicDef();
+    private TopicDef cvGeneratorEvents = new TopicDef();
 
     public TopicDef getUserEvents() { return userEvents; }
     public void setUserEvents(TopicDef userEvents) { this.userEvents = userEvents; }
@@ -32,6 +33,8 @@ public class KafkaTopicsProperties {
     public void setCorrectionEvents(TopicDef correctionEvents) { this.correctionEvents = correctionEvents; }
     public TopicDef getNotificationEvents() { return notificationEvents; }
     public void setNotificationEvents(TopicDef notificationEvents) { this.notificationEvents = notificationEvents; }
+    public TopicDef getCvGeneratorEvents() { return cvGeneratorEvents; }
+    public void setCvGeneratorEvents(TopicDef cvGeneratorEvents) { this.cvGeneratorEvents = cvGeneratorEvents; }
 
     public static class TopicDef {
         private String name;

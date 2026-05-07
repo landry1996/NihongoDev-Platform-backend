@@ -40,6 +40,7 @@ public class KafkaEventPublisherAdapter implements EventPublisherPort {
         registry.put("vocabulary-events", props.getVocabularyEvents().getName());
         registry.put("correction-events", props.getCorrectionEvents().getName());
         registry.put("notification-events", props.getNotificationEvents().getName());
+        registry.put("cv-generator-events", props.getCvGeneratorEvents().getName());
         return registry;
     }
 }
