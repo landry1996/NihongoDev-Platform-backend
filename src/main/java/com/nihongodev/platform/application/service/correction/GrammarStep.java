@@ -54,9 +54,9 @@ public class GrammarStep implements CorrectionStep {
 
     private double penaltyFor(Severity severity) {
         return switch (severity) {
-            case ERROR -> 15;
-            case WARNING -> 8;
-            case INFO -> 3;
+            case ERROR, CRITICAL -> 15;
+            case WARNING, MODERATE -> 8;
+            case INFO, MINOR -> 3;
         };
     }
 

@@ -44,9 +44,9 @@ public class CorrectionMerger {
 
     private int severityPriority(Severity severity) {
         return switch (severity) {
-            case ERROR -> 0;
-            case WARNING -> 1;
-            case INFO -> 2;
+            case ERROR, CRITICAL -> 0;
+            case WARNING, MODERATE -> 1;
+            case INFO, MINOR -> 2;
         };
     }
 }
