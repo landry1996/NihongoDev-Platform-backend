@@ -3,6 +3,7 @@ package com.nihongodev.platform.infrastructure.web;
 import com.nihongodev.platform.domain.exception.BusinessException;
 import com.nihongodev.platform.domain.exception.RateLimitExceededException;
 import com.nihongodev.platform.domain.exception.ResourceNotFoundException;
+import com.nihongodev.platform.domain.exception.UnauthorizedException;
 import com.nihongodev.platform.infrastructure.web.response.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -42,6 +43,14 @@ public class GlobalExceptionHandler {
         ApiErrorResponse body = ApiErrorResponse.of(
                 HttpStatus.BAD_REQUEST.value(), "Bad Request", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiErrorResponse> handleUnauthorized(UnauthorizedException ex, HttpServletRequest request) {
+        log.warn("[UNAUTHORIZED] path={} requestId={}", request.getRequestURI(), MDC.get("requestId"));
+        ApiErrorResponse body = ApiErrorResponse.of(
+                HttpStatus.UNAUTHORIZED.value(), "Unauthorized", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 
     @ExceptionHandler({AuthenticationException.class, BadCredentialsException.class})

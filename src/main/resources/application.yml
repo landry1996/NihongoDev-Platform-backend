@@ -27,17 +27,16 @@ spring:
       properties:
         spring.json.add.type.headers: true
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 2MB
+
 server:
   port: 8080
   tomcat:
     max-http-form-post-size: 2MB
     max-swallow-size: 2MB
-
-spring:
-  servlet:
-    multipart:
-      max-file-size: 1MB
-      max-request-size: 2MB
 
 springdoc:
   api-docs:

@@ -5,6 +5,7 @@ import com.nihongodev.platform.domain.event.DomainEvent;
 import com.nihongodev.platform.infrastructure.config.KafkaTopicsProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@ConditionalOnBean(KafkaTemplate.class)
 public class KafkaEventPublisherAdapter implements EventPublisherPort {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaEventPublisherAdapter.class);

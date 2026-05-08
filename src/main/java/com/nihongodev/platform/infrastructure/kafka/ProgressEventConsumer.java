@@ -7,10 +7,13 @@ import com.nihongodev.platform.application.port.in.UpdateProgressOnQuizCompleted
 import com.nihongodev.platform.domain.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnBean(KafkaTemplate.class)
 public class ProgressEventConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(ProgressEventConsumer.class);
