@@ -1,6 +1,6 @@
 # NihongoDev Platform — TODO
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 ---
 
@@ -335,34 +335,34 @@ Last updated: 2026-05-07
 - [x] Integration test: KafkaIntegrationTest (@EmbeddedKafka)
 - [x] 241 total tests pass, 0 failures
 
-## TODO — BLOC 10b: Securite Avancee Production (Hardening)
+## DONE — BLOC 10b: Securite Avancee Production (Hardening)
 
 ### Phase 1 — Fondations
-- [ ] InputSanitizer (strip HTML, normalize unicode, log injection prevention)
-- [ ] GlobalExceptionHandler durci (jamais de stacktrace client)
-- [ ] BCrypt strength 12
-- [ ] JWT : HS512, issuer, audience, jti claim
-- [ ] Refresh token rotation (invalidation a chaque usage)
-- [ ] Security headers (HSTS, CSP, X-Frame-Options, nosniff)
-- [ ] CORS strict par profil (dev vs prod)
-- [ ] application-secret.example.yml + .gitignore
-- [ ] Correlation ID filter (X-Request-ID + MDC)
+- [x] InputSanitizer (strip HTML, normalize unicode, log injection prevention)
+- [x] GlobalExceptionHandler durci (jamais de stacktrace client)
+- [x] BCrypt strength 12
+- [x] JWT : HS512, issuer, audience, jti claim
+- [x] Refresh token rotation (invalidation a chaque usage)
+- [x] Security headers (HSTS, CSP, X-Frame-Options, nosniff)
+- [x] CORS strict par profil (dev vs prod)
+- [x] application-secret.example.yml + .gitignore
+- [x] Correlation ID filter (X-Request-ID + MDC)
 
 ### Phase 2 — Protection active
-- [ ] LoginAttemptService (brute force: 5/10/20 tentatives -> block)
-- [ ] RateLimitFilter (Bucket4j: 3/10/20/100 req/min par endpoint)
-- [ ] ResourceOwnershipChecker (protection IDOR)
-- [ ] @PreAuthorize sur tous les controllers
-- [ ] SecurityAuditAspect (audit logs)
-- [ ] LogSanitizer (masquage secrets dans logs)
+- [x] LoginAttemptService (brute force: 5/10/20 tentatives -> block)
+- [x] RateLimitFilter (Bucket4j: 3/10/20/100 req/min par endpoint)
+- [x] ResourceOwnershipChecker (protection IDOR)
+- [x] @PreAuthorize sur tous les controllers
+- [x] SecurityAuditAspect (audit logs)
+- [x] LogSanitizer (masquage secrets dans logs)
 
 ### Phase 3 — Verification
-- [ ] Bean Validation complete sur TOUS les DTOs
-- [ ] Payload size limits (2MB)
-- [ ] ArchUnit security rules
-- [ ] Tests unitaires securite (5+ test classes)
-- [ ] Tests integration securite
-- [ ] SECURITY.md
+- [x] Bean Validation complete sur TOUS les DTOs
+- [x] Payload size limits (2MB)
+- [x] ArchUnit security rules
+- [x] Tests unitaires securite (5+ test classes)
+- [x] Tests integration securite
+- [x] SECURITY.md
 
 ## TODO — BLOC 11: Cultural Intelligence (Innovation)
 
@@ -434,6 +434,4 @@ Last updated: 2026-05-07
 
 ## NEXT BLOC
 
-**BLOC 10b: Securite Avancee Production** — Hardening OWASP Top 10, rate limiting, RBAC, audit logs, IDOR protection. Voir docs/superpowers/plans/2026-05-08-bloc10b-security-hardening.md
-
-Puis : **BLOC 11: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.
+**BLOC 11: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.
