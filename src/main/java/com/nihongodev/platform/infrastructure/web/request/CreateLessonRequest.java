@@ -9,6 +9,7 @@ public record CreateLessonRequest(
         @Size(max = 200, message = "Title must not exceed 200 characters")
         String title,
 
+        @Size(max = 1000, message = "Description must not exceed 1000 characters")
         String description,
 
         @NotNull(message = "Type is required")
@@ -17,6 +18,7 @@ public record CreateLessonRequest(
         @NotNull(message = "Level is required")
         String level,
 
+        @Size(max = 5000, message = "Content must not exceed 5000 characters")
         String content,
 
         int orderIndex

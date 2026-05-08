@@ -1,114 +1,82 @@
-# Security Policy — NihongoDev Platform
+# Security Policy
 
-## Architecture de Securite
+## Supported Versions
 
-```
-Client -> [HTTPS] -> [CORS] -> [Rate Limit] -> [JWT Auth] -> [RBAC] -> Controller
-                                                                            |
-                                                                    [Input Validation]
-                                                                            |
-                                                                    [Ownership Check]
-                                                                            |
-                                                                      Use Case
-```
+| Version | Supported          |
+| ------- | ------------------ |
+| 0.x.x   | :white_check_mark: |
 
----
+## Reporting a Vulnerability
 
-## Checklist Securite
+If you discover a security vulnerability, please report it responsibly:
 
-### Authentification & Autorisation
-- [x] JWT avec signature HS512
-- [x] Refresh token stocke en DB
-- [ ] Refresh token rotation (invalidation a chaque usage)
-- [ ] JWT jti claim pour revocation
-- [ ] Issuer + Audience claims
-- [x] BCrypt password hashing
-- [ ] BCrypt strength 12
-- [ ] Brute force protection (LoginAttemptService)
-- [ ] Rate limiting (Bucket4j) sur /api/auth/**
-- [x] Roles : ADMIN, TEACHER, LEARNER
-- [ ] @PreAuthorize sur tous les controllers
-- [ ] IDOR protection (ResourceOwnershipChecker)
+1. **Do NOT** open a public GitHub issue
+2. Send an email to security@nihongodev.com with:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Potential impact
+   - Suggested fix (if any)
 
-### Validation des Inputs
-- [x] Bean Validation (@Valid, @NotBlank, @Size) sur DTOs principaux
-- [ ] Bean Validation complete sur TOUS les DTOs
-- [ ] InputSanitizer (strip HTML, normalize unicode)
-- [ ] Payload size limits (2MB max)
-- [x] CorrectTextRequest @Size(max=5000)
+We will acknowledge receipt within 48 hours and provide a detailed response within 7 days.
 
-### Headers & Transport
-- [x] CORS configure
-- [ ] CORS strict par profil (dev vs prod)
-- [ ] X-Content-Type-Options: nosniff
-- [ ] X-Frame-Options: DENY
-- [ ] Strict-Transport-Security (HSTS)
-- [ ] Content-Security-Policy
-- [ ] Cache-Control: no-store sur auth endpoints
+## Security Measures
+
+This application implements the following security controls:
+
+### Authentication & Authorization
+- JWT-based authentication with HS512 signing
+- Access tokens with 15-minute TTL
+- Refresh token rotation with family-based revocation detection
+- BCrypt password hashing (strength 12)
+- Role-Based Access Control (RBAC): ADMIN, TEACHER, LEARNER
+- Method-level security via @PreAuthorize
+
+### Input Protection
+- Bean Validation on all DTOs
+- XSS sanitization on text inputs
+- Payload size limits (1MB file, 2MB request)
+- Rate limiting on authentication endpoints
+
+### Brute Force Protection
+- Progressive blocking: 5 attempts (15min), 10 (1h), 20 (24h)
+- Per-IP rate limiting on auth endpoints
+
+### Security Headers
+- X-Content-Type-Options: nosniff
+- X-Frame-Options: DENY
+- Strict-Transport-Security (HSTS)
+- Content-Security-Policy: default-src 'self'
+- Referrer-Policy: strict-origin-when-cross-origin
+- Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+### CORS
+- Strict origin whitelist in production
+- No wildcard origins with credentials
 
 ### Logging & Audit
-- [x] Structured logging (SLF4J)
-- [ ] Correlation ID (X-Request-ID)
-- [ ] Audit logs (login, access denied, password change)
-- [ ] Log sanitization (pas de passwords/tokens dans les logs)
-- [x] Pas de stacktrace pour 500 cote client
+- Correlation ID (X-Request-ID) on all requests
+- Security audit logging (login, logout, access denied, rate limited)
+- Sensitive data masking in logs (emails, tokens, passwords)
+- No stack traces exposed to clients
 
-### Configuration & Secrets
-- [x] Secrets en variables d'environnement (JWT_SECRET)
-- [ ] application-secret.yml gitignored
-- [ ] application-secret.example.yml versionne
-- [x] .gitignore pour fichiers sensibles
+### Data Protection
+- Secrets via environment variables (never in config files)
+- SQL injection prevention via JPA parameterized queries
+- HTTPS enforced in production (HSTS)
 
-### Protection OWASP
-- [x] SQL Injection : JPA parameterized queries
-- [ ] XSS : InputSanitizer + CSP header
-- [ ] Broken Access Control : RBAC + IDOR
-- [x] Sensitive Data Exposure : pas de stacktrace client
-- [ ] JWT Misuse : jti blacklist, issuer/audience verification
-- [ ] CORS Misconfiguration : whitelist stricte en prod
-- [ ] Brute Force : rate limiting + login attempts tracking
+## Configuration
 
----
+### Secrets
+Copy `application-secret.example.yml` to `application-secret.yml` and fill in production values.
+The JWT secret MUST be at least 64 characters for HS512.
 
-## Signaler une Vulnerabilite
-
-Si vous decouvrez une vulnerabilite de securite, **ne creez pas d'issue publique**.
-
-Contactez : security@nihongodev.com
-
-Nous nous engageons a :
-1. Accuser reception sous 48h
-2. Fournir un correctif sous 7 jours pour les vulnerabilites critiques
-3. Crediter le rapporteur (si souhaite)
-
----
-
-## Dependances de Securite
-
-| Composant | Version | Role |
-|-----------|---------|------|
-| Spring Security | 6.x | Framework auth/authz |
-| JJWT | 0.12.x | Signature JWT |
-| BCrypt | via Spring | Hashing passwords |
-| Bucket4j | 8.10.1 (a ajouter) | Rate limiting |
-
----
-
-## Profils d'Environnement
-
-| Profil | CORS | Logging | JWT TTL | Rate Limit |
-|--------|------|---------|---------|------------|
-| dev | * (all origins) | DEBUG | 1h | Desactive |
-| test | localhost | INFO | 1h | Desactive |
-| prod | whitelist stricte | WARN | 15min | Active |
-
----
-
-## Plan d'Implementation
-
-Voir : `docs/superpowers/plans/2026-05-08-bloc10b-security-hardening.md`
-
-Phases :
-1. **Fondations** — JWT durci, BCrypt 12, headers, CORS, secrets
-2. **Protection active** — Brute force, rate limit, IDOR, audit
-3. **Verification** — Tests securite, ArchUnit rules, revue complete
+### Environment Variables
+| Variable | Description |
+|----------|-------------|
+| JWT_SECRET | JWT signing secret (min 64 chars) |
+| DATABASE_URL | PostgreSQL connection URL |
+| DATABASE_USERNAME | Database username |
+| DATABASE_PASSWORD | Database password |
+| REDIS_HOST | Redis host |
+| REDIS_PASSWORD | Redis password |
+| CORS_ALLOWED_ORIGINS | Comma-separated allowed origins |

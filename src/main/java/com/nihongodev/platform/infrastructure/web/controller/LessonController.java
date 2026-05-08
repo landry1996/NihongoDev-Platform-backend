@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class LessonController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new lesson")
     public ResponseEntity<LessonDto> create(@Valid @RequestBody CreateLessonRequest request) {
         CreateLessonCommand command = new CreateLessonCommand(
@@ -59,6 +61,7 @@ public class LessonController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update a lesson")
     public ResponseEntity<LessonDto> update(@PathVariable UUID id, @Valid @RequestBody UpdateLessonRequest request) {
         UpdateLessonCommand command = new UpdateLessonCommand(
@@ -107,6 +110,7 @@ public class LessonController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a lesson")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         deleteLessonPort.delete(id);

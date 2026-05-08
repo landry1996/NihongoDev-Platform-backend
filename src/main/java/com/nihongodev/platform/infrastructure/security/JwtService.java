@@ -15,6 +15,9 @@ import java.util.UUID;
 @Service
 public class JwtService implements JwtPort {
 
+    private static final String ISSUER = "nihongodev-platform";
+    private static final String AUDIENCE = "nihongodev-api";
+
     private final SecretKey signingKey;
     private final long accessTokenExpirationMs;
     private final long refreshTokenExpirationMs;
@@ -33,12 +36,15 @@ public class JwtService implements JwtPort {
         Date expiry = new Date(now.getTime() + accessTokenExpirationMs);
 
         return Jwts.builder()
+                .id(UUID.randomUUID().toString())
                 .subject(userId.toString())
                 .claim("email", email)
                 .claim("role", role)
+                .issuer(ISSUER)
+                .audience().add(AUDIENCE).and()
                 .issuedAt(now)
                 .expiration(expiry)
-                .signWith(signingKey)
+                .signWith(signingKey, Jwts.SIG.HS512)
                 .compact();
     }
 
@@ -59,11 +65,25 @@ public class JwtService implements JwtPort {
         return claims.get("email", String.class);
     }
 
+    public String extractJti(String token) {
+        Claims claims = extractClaims(token);
+        return claims.getId();
+    }
+
     @Override
     public boolean isTokenValid(String token) {
         try {
             Claims claims = extractClaims(token);
-            return !claims.getExpiration().before(new Date());
+            if (claims.getExpiration().before(new Date())) {
+                return false;
+            }
+            if (!ISSUER.equals(claims.getIssuer())) {
+                return false;
+            }
+            if (claims.getAudience() == null || !claims.getAudience().contains(AUDIENCE)) {
+                return false;
+            }
+            return true;
         } catch (Exception e) {
             return false;
         }
@@ -81,6 +101,8 @@ public class JwtService implements JwtPort {
 
     private Claims extractClaims(String token) {
         return Jwts.parser()
+                .requireIssuer(ISSUER)
+                .requireAudience(AUDIENCE)
                 .verifyWith(signingKey)
                 .build()
                 .parseSignedClaims(token)

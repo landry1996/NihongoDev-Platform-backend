@@ -19,9 +19,11 @@ Thumbs.db
 
 # Spring
 application-secret.yml
+application-secret.properties
 
 # Env
 .env
+*.env
 *.env.local
 
 # Logs

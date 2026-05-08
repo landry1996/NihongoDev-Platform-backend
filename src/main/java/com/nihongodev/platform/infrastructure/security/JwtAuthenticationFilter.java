@@ -25,6 +25,9 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final String ISSUER = "nihongodev-platform";
+    private static final String AUDIENCE = "nihongodev-api";
+
     private final SecretKey signingKey;
 
     public JwtAuthenticationFilter(@Value("${app.jwt.secret}") String secret) {
@@ -46,6 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             Claims claims = Jwts.parser()
+                    .requireIssuer(ISSUER)
+                    .requireAudience(AUDIENCE)
                     .verifyWith(signingKey)
                     .build()
                     .parseSignedClaims(token)
