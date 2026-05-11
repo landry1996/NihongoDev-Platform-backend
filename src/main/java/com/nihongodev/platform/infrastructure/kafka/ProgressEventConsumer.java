@@ -4,6 +4,7 @@ import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCom
 import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnQuizCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnScenarioCompletedPort;
 import com.nihongodev.platform.domain.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +23,18 @@ public class ProgressEventConsumer {
     private final UpdateProgressOnQuizCompletedPort quizCompletedPort;
     private final UpdateProgressOnInterviewCompletedPort interviewCompletedPort;
     private final UpdateProgressOnCorrectionCompletedPort correctionCompletedPort;
+    private final UpdateProgressOnScenarioCompletedPort scenarioCompletedPort;
 
     public ProgressEventConsumer(UpdateProgressOnLessonCompletedPort lessonCompletedPort,
                                  UpdateProgressOnQuizCompletedPort quizCompletedPort,
                                  UpdateProgressOnInterviewCompletedPort interviewCompletedPort,
-                                 UpdateProgressOnCorrectionCompletedPort correctionCompletedPort) {
+                                 UpdateProgressOnCorrectionCompletedPort correctionCompletedPort,
+                                 UpdateProgressOnScenarioCompletedPort scenarioCompletedPort) {
         this.lessonCompletedPort = lessonCompletedPort;
         this.quizCompletedPort = quizCompletedPort;
         this.interviewCompletedPort = interviewCompletedPort;
         this.correctionCompletedPort = correctionCompletedPort;
+        this.scenarioCompletedPort = scenarioCompletedPort;
     }
 
     @KafkaListener(topics = "lesson-events", groupId = "progress-consumer-group")
@@ -59,6 +63,13 @@ public class ProgressEventConsumer {
         validateEvent(event);
         log.info("Processing event [eventId={}, type=TEXT_CORRECTED, userId={}]", event.eventId(), event.userId());
         correctionCompletedPort.execute(event);
+    }
+
+    @KafkaListener(topics = "cultural-events", groupId = "progress-consumer-group")
+    public void handleScenarioCompleted(ScenarioCompletedEvent event) {
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=SCENARIO_COMPLETED, userId={}]", event.eventId(), event.userId());
+        scenarioCompletedPort.execute(event);
     }
 
     private void validateEvent(DomainEvent event) {

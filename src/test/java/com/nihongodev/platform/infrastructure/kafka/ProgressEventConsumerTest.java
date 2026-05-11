@@ -4,10 +4,13 @@ import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCom
 import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnQuizCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnScenarioCompletedPort;
 import com.nihongodev.platform.domain.event.InterviewCompletedEvent;
 import com.nihongodev.platform.domain.event.LessonCompletedEvent;
 import com.nihongodev.platform.domain.event.QuizCompletedEvent;
+import com.nihongodev.platform.domain.event.ScenarioCompletedEvent;
 import com.nihongodev.platform.domain.event.TextCorrectedEvent;
+import com.nihongodev.platform.domain.model.ScenarioCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,12 +32,13 @@ class ProgressEventConsumerTest {
     @Mock private UpdateProgressOnQuizCompletedPort quizPort;
     @Mock private UpdateProgressOnInterviewCompletedPort interviewPort;
     @Mock private UpdateProgressOnCorrectionCompletedPort correctionPort;
+    @Mock private UpdateProgressOnScenarioCompletedPort scenarioPort;
 
     private ProgressEventConsumer consumer;
 
     @BeforeEach
     void setUp() {
-        consumer = new ProgressEventConsumer(lessonPort, quizPort, interviewPort, correctionPort);
+        consumer = new ProgressEventConsumer(lessonPort, quizPort, interviewPort, correctionPort, scenarioPort);
     }
 
     @Test
@@ -80,6 +84,17 @@ class ProgressEventConsumerTest {
         consumer.handleCorrectionCompleted(event);
 
         verify(correctionPort).execute(event);
+    }
+
+    @Test
+    @DisplayName("should delegate ScenarioCompletedEvent to port")
+    void shouldDelegateScenarioEvent() {
+        ScenarioCompletedEvent event = ScenarioCompletedEvent.create(
+                UUID.randomUUID(), UUID.randomUUID(), 85, ScenarioCategory.COMMUNICATION);
+
+        consumer.handleScenarioCompleted(event);
+
+        verify(scenarioPort).execute(event);
     }
 
     @Test
