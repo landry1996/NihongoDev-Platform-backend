@@ -1,5 +1,6 @@
 package com.nihongodev.platform.infrastructure.kafka;
 
+import com.nihongodev.platform.application.port.in.UpdateProgressOnCodeExerciseCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
@@ -24,17 +25,20 @@ public class ProgressEventConsumer {
     private final UpdateProgressOnInterviewCompletedPort interviewCompletedPort;
     private final UpdateProgressOnCorrectionCompletedPort correctionCompletedPort;
     private final UpdateProgressOnScenarioCompletedPort scenarioCompletedPort;
+    private final UpdateProgressOnCodeExerciseCompletedPort codeExerciseCompletedPort;
 
     public ProgressEventConsumer(UpdateProgressOnLessonCompletedPort lessonCompletedPort,
                                  UpdateProgressOnQuizCompletedPort quizCompletedPort,
                                  UpdateProgressOnInterviewCompletedPort interviewCompletedPort,
                                  UpdateProgressOnCorrectionCompletedPort correctionCompletedPort,
-                                 UpdateProgressOnScenarioCompletedPort scenarioCompletedPort) {
+                                 UpdateProgressOnScenarioCompletedPort scenarioCompletedPort,
+                                 UpdateProgressOnCodeExerciseCompletedPort codeExerciseCompletedPort) {
         this.lessonCompletedPort = lessonCompletedPort;
         this.quizCompletedPort = quizCompletedPort;
         this.interviewCompletedPort = interviewCompletedPort;
         this.correctionCompletedPort = correctionCompletedPort;
         this.scenarioCompletedPort = scenarioCompletedPort;
+        this.codeExerciseCompletedPort = codeExerciseCompletedPort;
     }
 
     @KafkaListener(topics = "lesson-events", groupId = "progress-consumer-group")
@@ -70,6 +74,13 @@ public class ProgressEventConsumer {
         validateEvent(event);
         log.info("Processing event [eventId={}, type=SCENARIO_COMPLETED, userId={}]", event.eventId(), event.userId());
         scenarioCompletedPort.execute(event);
+    }
+
+    @KafkaListener(topics = "code-japanese-events", groupId = "progress-consumer-group")
+    public void handleCodeExerciseCompleted(CodeExerciseCompletedEvent event) {
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=CODE_EXERCISE_COMPLETED, userId={}]", event.eventId(), event.userId());
+        codeExerciseCompletedPort.execute(event);
     }
 
     private void validateEvent(DomainEvent event) {

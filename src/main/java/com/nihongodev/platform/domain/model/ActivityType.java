@@ -5,7 +5,8 @@ public enum ActivityType {
     QUIZ_COMPLETED(30, 1.0),
     INTERVIEW_COMPLETED(80, 1.5),
     CORRECTION_COMPLETED(40, 1.2),
-    CULTURAL_SCENARIO_COMPLETED(60, 1.3);
+    CULTURAL_SCENARIO_COMPLETED(60, 1.3),
+    CODE_EXERCISE_COMPLETED(70, 1.4);
 
     private final int baseXp;
     private final double scoreWeight;
@@ -30,6 +31,7 @@ public enum ActivityType {
             case INTERVIEW -> INTERVIEW_COMPLETED;
             case CORRECTION -> CORRECTION_COMPLETED;
             case CULTURAL -> CULTURAL_SCENARIO_COMPLETED;
+            case CODE_REVIEW -> CODE_EXERCISE_COMPLETED;
             default -> throw new IllegalArgumentException("No activity type for module: " + moduleType);
         };
     }
