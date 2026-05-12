@@ -10,6 +10,7 @@ import com.nihongodev.platform.domain.model.ExportFormat;
 import com.nihongodev.platform.domain.model.PitchType;
 import com.nihongodev.platform.infrastructure.security.AuthenticatedUser;
 import com.nihongodev.platform.infrastructure.web.request.CreateCvProfileRequest;
+import com.nihongodev.platform.infrastructure.web.request.GenerateLlmCvRequest;
 import com.nihongodev.platform.infrastructure.web.request.GeneratePitchRequest;
 import com.nihongodev.platform.infrastructure.web.request.UpdateCvProfileRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,19 +36,22 @@ public class CvGeneratorController {
     private final GeneratePitchPort generatePitchPort;
     private final GetPitchHistoryPort getPitchHistoryPort;
     private final ExportPitchPort exportPitchPort;
+    private final GenerateLlmCvPort generateLlmCvPort;
 
     public CvGeneratorController(CreateCvProfilePort createProfilePort,
                                  UpdateCvProfilePort updateProfilePort,
                                  GetCvProfilePort getProfilePort,
                                  GeneratePitchPort generatePitchPort,
                                  GetPitchHistoryPort getPitchHistoryPort,
-                                 ExportPitchPort exportPitchPort) {
+                                 ExportPitchPort exportPitchPort,
+                                 GenerateLlmCvPort generateLlmCvPort) {
         this.createProfilePort = createProfilePort;
         this.updateProfilePort = updateProfilePort;
         this.getProfilePort = getProfilePort;
         this.generatePitchPort = generatePitchPort;
         this.getPitchHistoryPort = getPitchHistoryPort;
         this.exportPitchPort = exportPitchPort;
+        this.generateLlmCvPort = generateLlmCvPort;
     }
 
     @PostMapping("/profile")
@@ -132,5 +136,15 @@ public class CvGeneratorController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(content);
+    }
+
+    @PostMapping("/generate-llm")
+    @Operation(summary = "Generate a pitch using LLM (AI-powered)")
+    public ResponseEntity<GeneratedPitchDto> generateLlmPitch(
+            @AuthenticationPrincipal AuthenticatedUser user,
+            @Valid @RequestBody GenerateLlmCvRequest request) {
+        GeneratedPitchDto result = generateLlmCvPort.generate(
+                user.id(), request.pitchType(), request.targetCompanyType(), request.additionalInstructions());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }

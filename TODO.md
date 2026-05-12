@@ -1,6 +1,6 @@
 # NihongoDev Platform — TODO
 
-Last updated: 2026-05-12
+Last updated: 2026-05-12 (BLOC 15 completed)
 
 ---
 
@@ -407,11 +407,34 @@ Last updated: 2026-05-12
 - [x] Unit tests: PublicProfileTest (7), BadgeTest (1), UserBadgeTest (2), CreatePublicProfileUseCaseTest (2), AwardBadgeUseCaseTest (2), ShowcaseBadgeUseCaseTest (2), SearchProfilesUseCaseTest (2)
 - [x] Compilation verified OK (418 total tests pass, 0 failures)
 
-## TODO — BLOC 15: Notification & CV Generator
+## DONE — BLOC 15: Notification & CV Generator (Event-driven, Email, LLM)
 
-- [ ] Kafka event consumers
-- [ ] Email notification service
-- [ ] CV generation (LLM-based)
+- [x] Notification domain model (Notification, NotificationType, NotificationChannel)
+- [x] NotificationRepositoryPort + EmailSenderPort + LlmPort (ports out)
+- [x] SendNotificationPort, GetNotificationsPort, MarkNotificationReadPort, GenerateLlmCvPort (ports in)
+- [x] NotificationDto
+- [x] SendNotificationUseCase (save + conditional email dispatch)
+- [x] GetNotificationsUseCase (all, unread, count)
+- [x] MarkNotificationReadUseCase (single + batch, ownership check)
+- [x] GenerateLlmCvUseCase (profile → LLM prompt → save pitch → publish event)
+- [x] NotificationEventConsumer (Kafka listener: user-events, badge-events, progress-events, quiz-events, interview-events, cv-generator-events)
+- [x] EmailSenderAdapter (Spring Mail, async HTML/plain, MimeMessage)
+- [x] ClaudeLlmAdapter (Anthropic Claude API via RestClient, system+user prompts)
+- [x] NotificationEntity + JpaNotificationRepository (user_id, unread indexes)
+- [x] NotificationPersistenceMapper + NotificationRepositoryAdapter
+- [x] NotificationController (5 endpoints: GET all, GET unread, GET count, PATCH read, PATCH read-all)
+- [x] CvGeneratorController: added POST /generate-llm endpoint (LLM-powered pitch generation)
+- [x] GenerateLlmCvRequest (validation: pitchType required, additionalInstructions max 500)
+- [x] V13 Flyway migration: notifications table + indexes
+- [x] @EnableAsync on application class
+- [x] application.yml: spring.mail config + app.mail.from + app.llm (api-key, model, base-url)
+- [x] Unit tests: NotificationTest (7 tests — domain model)
+- [x] Unit tests: SendNotificationUseCaseTest (4 tests — in-app, email, error handling)
+- [x] Unit tests: GetNotificationsUseCaseTest (3 tests — all, unread, count)
+- [x] Unit tests: MarkNotificationReadUseCaseTest (4 tests — mark, not-found, ownership, batch)
+- [x] Unit tests: GenerateLlmCvUseCaseTest (3 tests — success, not-found, default company type)
+- [x] Unit tests: NotificationEventConsumerTest (5 tests — each event type)
+- [x] Compilation verified OK (444 total tests pass, 0 failures)
 
 ---
 
@@ -449,4 +472,4 @@ Last updated: 2026-05-12
 
 ## NEXT BLOC
 
-**BLOC 15: Notification & CV Generator** — Kafka event consumers for notifications, email service, and LLM-based CV generation.
+**BLOC 16: Deployment & Monitoring** — Production readiness, Prometheus/Grafana, structured logging, Docker optimization.
