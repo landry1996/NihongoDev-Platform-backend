@@ -1,0 +1,9 @@
+package com.nihongodev.platform.application.port.in;
+
+import com.nihongodev.platform.application.dto.ContentReadingSessionDto;
+
+import java.util.UUID;
+
+public interface StartReadingSessionPort {
+    ContentReadingSessionDto execute(UUID userId, UUID contentId);
+}

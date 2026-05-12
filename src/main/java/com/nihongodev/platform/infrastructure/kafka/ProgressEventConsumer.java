@@ -1,6 +1,7 @@
 package com.nihongodev.platform.infrastructure.kafka;
 
 import com.nihongodev.platform.application.port.in.UpdateProgressOnCodeExerciseCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnContentReadPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
@@ -26,19 +27,22 @@ public class ProgressEventConsumer {
     private final UpdateProgressOnCorrectionCompletedPort correctionCompletedPort;
     private final UpdateProgressOnScenarioCompletedPort scenarioCompletedPort;
     private final UpdateProgressOnCodeExerciseCompletedPort codeExerciseCompletedPort;
+    private final UpdateProgressOnContentReadPort contentReadPort;
 
     public ProgressEventConsumer(UpdateProgressOnLessonCompletedPort lessonCompletedPort,
                                  UpdateProgressOnQuizCompletedPort quizCompletedPort,
                                  UpdateProgressOnInterviewCompletedPort interviewCompletedPort,
                                  UpdateProgressOnCorrectionCompletedPort correctionCompletedPort,
                                  UpdateProgressOnScenarioCompletedPort scenarioCompletedPort,
-                                 UpdateProgressOnCodeExerciseCompletedPort codeExerciseCompletedPort) {
+                                 UpdateProgressOnCodeExerciseCompletedPort codeExerciseCompletedPort,
+                                 UpdateProgressOnContentReadPort contentReadPort) {
         this.lessonCompletedPort = lessonCompletedPort;
         this.quizCompletedPort = quizCompletedPort;
         this.interviewCompletedPort = interviewCompletedPort;
         this.correctionCompletedPort = correctionCompletedPort;
         this.scenarioCompletedPort = scenarioCompletedPort;
         this.codeExerciseCompletedPort = codeExerciseCompletedPort;
+        this.contentReadPort = contentReadPort;
     }
 
     @KafkaListener(topics = "lesson-events", groupId = "progress-consumer-group")
@@ -81,6 +85,13 @@ public class ProgressEventConsumer {
         validateEvent(event);
         log.info("Processing event [eventId={}, type=CODE_EXERCISE_COMPLETED, userId={}]", event.eventId(), event.userId());
         codeExerciseCompletedPort.execute(event);
+    }
+
+    @KafkaListener(topics = "real-content-events", groupId = "progress-consumer-group")
+    public void handleContentReadCompleted(ContentReadCompletedEvent event) {
+        validateEvent(event);
+        log.info("Processing event [eventId={}, type=CONTENT_READ_COMPLETED, userId={}]", event.eventId(), event.userId());
+        contentReadPort.execute(event);
     }
 
     private void validateEvent(DomainEvent event) {

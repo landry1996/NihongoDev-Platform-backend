@@ -378,12 +378,17 @@ Last updated: 2026-05-08
 - [ ] CommitMessage validator
 - [ ] CodeJapaneseController
 
-## TODO — BLOC 13: Real Content Engine (Innovation)
+## TODO — BLOC 13: Real Content Engine (Innovation) ✅
 
-- [ ] Content ingestion pipeline
-- [ ] Annotation engine
-- [ ] Personalized content selector
-- [ ] RealContentController
+- [x] Content ingestion pipeline (TextNormalization + MetadataExtraction steps)
+- [x] Annotation engine (Vocabulary, Grammar, Kanji, TechnicalTerm annotators)
+- [x] Personalized content selector (multi-dimensional scoring: domain, difficulty, time, source)
+- [x] RealContentController (11 endpoints: ingest, annotate, publish, feed, read, sessions, preferences)
+- [x] Domain model (RealContent, ContentReadingSession, UserContentPreference, ContentAnnotation)
+- [x] Domain event (ContentReadCompletedEvent) + Kafka consumer integration
+- [x] Flyway V11 migration with seed data (3 sample Japanese tech articles)
+- [x] Full hexagonal architecture (ports IN/OUT, adapters, JPA entities, mappers)
+- [x] 32 new tests passing (400 total)
 
 ## TODO — BLOC 14: Portfolio & Recruiter (Innovation)
 

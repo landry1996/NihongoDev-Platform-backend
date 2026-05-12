@@ -1,6 +1,7 @@
 package com.nihongodev.platform.infrastructure.kafka;
 
 import com.nihongodev.platform.application.port.in.UpdateProgressOnCodeExerciseCompletedPort;
+import com.nihongodev.platform.application.port.in.UpdateProgressOnContentReadPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnCorrectionCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnInterviewCompletedPort;
 import com.nihongodev.platform.application.port.in.UpdateProgressOnLessonCompletedPort;
@@ -35,12 +36,13 @@ class ProgressEventConsumerTest {
     @Mock private UpdateProgressOnCorrectionCompletedPort correctionPort;
     @Mock private UpdateProgressOnScenarioCompletedPort scenarioPort;
     @Mock private UpdateProgressOnCodeExerciseCompletedPort codeExercisePort;
+    @Mock private UpdateProgressOnContentReadPort contentReadPort;
 
     private ProgressEventConsumer consumer;
 
     @BeforeEach
     void setUp() {
-        consumer = new ProgressEventConsumer(lessonPort, quizPort, interviewPort, correctionPort, scenarioPort, codeExercisePort);
+        consumer = new ProgressEventConsumer(lessonPort, quizPort, interviewPort, correctionPort, scenarioPort, codeExercisePort, contentReadPort);
     }
 
     @Test
