@@ -1,6 +1,17 @@
 # NihongoDev Platform — Document Technique
 
-## 1. Stack Technologique
+## 1. Repositories
+
+| Repository | URL | Description |
+|------------|-----|-------------|
+| Backend | https://github.com/landry1996/NihongoDev-Platform-backend | Java 21 + Spring Boot 3.3.5, Architecture Hexagonale |
+| Frontend | https://github.com/landry1996/NihongoDev-Platform-frontend | Angular 21, Standalone Components, Signals |
+
+---
+
+## 2. Stack Technologique
+
+### Backend
 
 | Composant | Technologie | Version | Justification |
 |-----------|-------------|---------|---------------|
@@ -18,11 +29,23 @@
 | Conteneurisation | Docker | multi-stage | Build reproductible |
 | IA/LLM | Claude API (Anthropic) | claude-sonnet-4-6 | Generation de CV/Pitch |
 
+### Frontend
+
+| Composant | Technologie | Version | Justification |
+|-----------|-------------|---------|---------------|
+| Framework | Angular | 21 | Standalone components, signals, inject pattern |
+| Langage | TypeScript | 5.x | Typage fort aligne avec DTOs backend |
+| Styling | SCSS + Tailwind CSS | 4.x | Utilitaires + composants custom |
+| Build | @angular/build (ESBuild) | - | Build rapide, HMR |
+| HTTP | HttpClient + Interceptors | Angular built-in | Injection Bearer automatique |
+| State | Signals | Angular built-in | Reactivite sans boilerplate |
+| Routing | Angular Router (lazy) | - | Code-splitting, performance |
+
 ---
 
-## 2. Architecture
+## 3. Architecture
 
-### 2.1 Architecture Hexagonale (Ports & Adapters)
+### 3.1 Architecture Hexagonale (Ports & Adapters)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -63,7 +86,7 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Structure des Packages
+### 3.2 Structure des Packages
 
 ```
 src/main/java/com/nihongodev/platform/
@@ -97,9 +120,9 @@ src/main/java/com/nihongodev/platform/
 
 ---
 
-## 3. Base de Donnees
+## 4. Base de Donnees
 
-### 3.1 Schema (13 migrations Flyway)
+### 4.1 Schema (13 migrations Flyway)
 
 | Migration | Tables |
 |-----------|--------|
@@ -117,7 +140,7 @@ src/main/java/com/nihongodev/platform/
 | V12 | badges, user_badges, public_profiles |
 | V13 | notifications |
 
-### 3.2 Strategies de Stockage
+### 4.2 Strategies de Stockage
 
 - **JSONB** : `cv_profiles.tech_stack`, `cv_profiles.experiences`, `user_statistics.weak_areas`
 - **Index partiels** : `WHERE is_read = FALSE` sur notifications
@@ -125,9 +148,9 @@ src/main/java/com/nihongodev/platform/
 
 ---
 
-## 4. Event-Driven Architecture (Kafka)
+## 5. Event-Driven Architecture (Kafka)
 
-### 4.1 Topics
+### 5.1 Topics
 
 | Topic | Partitions | Producteur | Consommateurs |
 |-------|-----------|------------|---------------|
@@ -144,23 +167,23 @@ src/main/java/com/nihongodev/platform/
 | cultural-events | 3 | CulturalController | ProgressEventConsumer |
 | dead-letter-events | 1 | ErrorHandler (auto) | - |
 
-### 4.2 Error Handling
+### 5.2 Error Handling
 
 - **Retry** : Backoff exponentiel 1s → 2s → 4s (max 7s)
 - **Dead Letter Topic** : Messages non-retryables envoyes au DLT
 - **Non-retryable** : `IllegalArgumentException`, `NullPointerException`
 - **Consumer groups** : `progress-consumer-group`, `notification-consumer-group`
 
-### 4.3 Serialization
+### 5.3 Serialization
 
 - Producer : `JsonSerializer` avec type headers
 - Consumer : `JsonDeserializer` avec trusted packages (`com.nihongodev.platform.domain.event`)
 
 ---
 
-## 5. Securite
+## 6. Securite
 
-### 5.1 Authentification
+### 6.1 Authentification
 
 ```
 Client → RateLimitFilter → JwtAuthenticationFilter → Controller
@@ -176,7 +199,7 @@ Client → RateLimitFilter → JwtAuthenticationFilter → Controller
 - **Refresh Token** : Rotation a chaque usage, 7 jours TTL
 - **BCrypt** : Strength 12
 
-### 5.2 Protections
+### 6.2 Protections
 
 | Protection | Implementation |
 |------------|---------------|
@@ -190,7 +213,7 @@ Client → RateLimitFilter → JwtAuthenticationFilter → Controller
 | Audit | SecurityAuditAspect (logs des actions sensibles) |
 | Correlation | X-Request-ID + MDC pour tracabilite |
 
-### 5.3 Roles et Autorisations
+### 6.3 Roles et Autorisations
 
 - Endpoints publics : `GET /api/lessons/**`, `GET /api/vocabulary/**`, `GET /api/quizzes/published`
 - Endpoints admin : `POST /api/lessons`, `GET /api/analytics/**`
@@ -198,9 +221,9 @@ Client → RateLimitFilter → JwtAuthenticationFilter → Controller
 
 ---
 
-## 6. Integration LLM (Claude API)
+## 7. Integration LLM (Claude API)
 
-### 6.1 Architecture
+### 7.1 Architecture
 
 ```
 GenerateLlmCvUseCase
@@ -220,7 +243,7 @@ ClaudeLlmAdapter (RestClient)
 Response → Extract content[0].text → Save GeneratedPitch
 ```
 
-### 6.2 Configuration
+### 7.2 Configuration
 
 ```yaml
 app:
@@ -230,7 +253,7 @@ app:
     base-url: https://api.anthropic.com
 ```
 
-### 6.3 Prompt Engineering
+### 7.3 Prompt Engineering
 
 Le system prompt s'adapte dynamiquement :
 - **PitchType** → langue (japonais avec keigo ou anglais)
@@ -238,9 +261,9 @@ Le system prompt s'adapte dynamiquement :
 
 ---
 
-## 7. Email Service
+## 8. Email Service
 
-### 7.1 Architecture
+### 8.1 Architecture
 
 ```
 SendNotificationUseCase
@@ -259,7 +282,7 @@ EmailSenderAdapter (@Async)
 Mark notification.emailSent = true
 ```
 
-### 7.2 Configuration
+### 8.2 Configuration
 
 ```yaml
 spring:
@@ -272,9 +295,9 @@ spring:
 
 ---
 
-## 8. API REST
+## 9. API REST
 
-### 8.1 Endpoints (17 controllers, ~80+ endpoints)
+### 9.1 Endpoints (17 controllers, ~80+ endpoints)
 
 | Controller | Base Path | Endpoints |
 |------------|-----------|-----------|
@@ -296,7 +319,7 @@ spring:
 | NotificationController | /api/notifications | GET all, unread, count, PATCH read |
 | HealthController | /api/health | GET health check |
 
-### 8.2 Conventions
+### 9.2 Conventions
 
 - Reponses : `ApiErrorResponse` uniforme en cas d'erreur
 - Validation : Bean Validation (jakarta.validation) sur tous les Request DTOs
@@ -305,9 +328,9 @@ spring:
 
 ---
 
-## 9. Tests
+## 10. Tests
 
-### 9.1 Strategie
+### 10.1 Strategie
 
 | Type | Outils | Scope |
 |------|--------|-------|
@@ -316,7 +339,7 @@ spring:
 | Architecture | ArchUnit | Regles hexagonales |
 | API (a venir) | MockMvc | Controllers |
 
-### 9.2 Couverture
+### 10.2 Couverture
 
 - **444 tests** au total
 - 0 failures
@@ -325,15 +348,15 @@ spring:
 
 ---
 
-## 10. Deploiement
+## 11. Deploiement
 
-### 10.1 Docker Compose (Developpement)
+### 11.1 Docker Compose (Developpement)
 
 ```bash
 docker-compose up -d  # PostgreSQL + Redis + Kafka + Zookeeper
 ```
 
-### 10.2 Dockerfile (Production)
+### 11.2 Dockerfile (Production)
 
 ```dockerfile
 # Multi-stage build
@@ -346,7 +369,18 @@ COPY --from=build target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-### 10.3 Variables d'Environnement Requises
+### 11.3 Frontend (Angular)
+
+```bash
+cd NihongoDev-Platform-frontend
+npm install
+npx ng serve  # Developpement (http://localhost:4200)
+npx ng build  # Production (dist/)
+```
+
+### 11.4 Variables d'Environnement Requises
+
+**Backend :**
 
 | Variable | Description |
 |----------|-------------|
@@ -357,9 +391,15 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 | LLM_API_KEY | Cle API Anthropic |
 | CORS_ALLOWED_ORIGINS | Origins autorisees |
 
+**Frontend :**
+
+| Variable | Description |
+|----------|-------------|
+| API_BASE_URL | URL du backend (default: http://localhost:8080/api) |
+
 ---
 
-## 11. Monitoring et Observabilite
+## 12. Monitoring et Observabilite
 
 | Aspect | Implementation |
 |--------|---------------|
@@ -371,7 +411,91 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ---
 
-## 12. Design Patterns Utilises
+## 13. Frontend (Angular)
+
+### 13.1 Stack Technologique
+
+| Composant | Technologie | Version | Justification |
+|-----------|-------------|---------|---------------|
+| Framework | Angular | 21 | Signals, standalone components, latest features |
+| Langage | TypeScript | 5.x | Typage fort, interfaces alignees avec DTOs backend |
+| Styling | SCSS + Tailwind CSS | 4.x | Utilitaires + styles custom pour composants |
+| HTTP | HttpClient + Interceptors | Angular built-in | Bearer token automatique |
+| Routing | Angular Router | Lazy-loading | Performance, code-splitting |
+| State | Signals | Angular built-in | Reactivite sans RxJS pour l'UI |
+| Build | @angular/build | Application builder | ESBuild, fast HMR |
+
+### 13.2 Architecture Frontend
+
+```
+src/app/
+├── core/
+│   ├── guards/           # Auth guard (redirection si non-connecte)
+│   ├── interceptors/     # Bearer token injection automatique
+│   ├── models/           # Interfaces TypeScript (miroir des DTOs Java)
+│   └── services/         # Services HTTP par domaine
+│       ├── auth.service.ts        # JWT, login, register, logout
+│       ├── lesson.service.ts      # CRUD lecons
+│       ├── vocabulary.service.ts  # CRUD + SRS review
+│       ├── quiz.service.ts        # Start, answer, complete
+│       ├── interview.service.ts   # Sessions d'entretien
+│       ├── correction.service.ts  # Soumission + historique
+│       ├── progress.service.ts    # Statistiques + recommandations
+│       ├── cv.service.ts          # Profil + generation (regles + LLM)
+│       └── notification.service.ts # In-app notifications
+├── layout/
+│   ├── layout.component.ts    # Shell (sidebar + content)
+│   └── sidebar.component.ts   # Navigation + notifications
+└── features/
+    ├── auth/          # Login page
+    ├── dashboard/     # Tableau de bord principal
+    ├── lessons/       # Liste + detail
+    ├── vocabulary/    # 3 onglets (tous/revision/quiz)
+    ├── quiz/          # Liste + player interactif
+    ├── interview/     # Simulation d'entretien
+    ├── correction/    # Correction IA avec jauges
+    ├── progress/      # Progression et statistiques
+    ├── cv/            # Generateur de CV/Pitch
+    └── notifications/ # Centre de notifications
+```
+
+### 13.3 Modeles TypeScript (Alignement Backend)
+
+Les interfaces TypeScript sont un miroir des DTOs Java :
+
+| Interface Frontend | DTO Backend | Usage |
+|-------------------|-------------|-------|
+| `UserDto` | `UserDto` | Profil utilisateur |
+| `LessonDto` | `LessonDto` | Affichage des lecons |
+| `VocabularyDto` | `VocabularyDto` | Fiches de vocabulaire |
+| `QuizDto`, `QuestionDto` | `QuizDto`, `QuestionDto` | Quiz et questions |
+| `InterviewSessionDto` | `InterviewSessionDto` | Sessions d'entretien |
+| `CorrectionResultDto` | `CorrectionResultDto` | Resultats de correction |
+| `UserProgressDto` | `UserProgressDto` | Progression |
+| `CvProfileDto`, `GeneratedPitchDto` | `CvProfileDto`, `GeneratedPitchDto` | CV Generator |
+| `NotificationDto` | `NotificationDto` | Notifications |
+
+### 13.4 Securite Frontend
+
+| Mecanisme | Implementation |
+|-----------|---------------|
+| Token storage | localStorage (access + refresh) |
+| Auto-injection | HTTP Interceptor ajoute `Authorization: Bearer <token>` |
+| Guard | `authGuard` redirige vers `/login` si pas de token |
+| Refresh | Rotation automatique du refresh token |
+| Logout | Suppression des tokens + redirection |
+
+### 13.5 Conventions et Patterns
+
+- **Standalone components** : Pas de NgModules, chaque composant est autonome
+- **inject()** : Injection de dependances fonctionnelle (pas de constructeur)
+- **Signals** : Etat local reactif sans `BehaviorSubject`
+- **Inline templates** : Template et styles dans le meme fichier `.ts`
+- **Lazy routing** : `loadComponent: () => import(...)` pour chaque feature
+
+---
+
+## 14. Design Patterns Utilises
 
 | Pattern | Utilisation |
 |---------|-------------|

@@ -284,7 +284,46 @@ NihongoDev est une plateforme d'apprentissage du japonais specialisee pour les d
 
 ---
 
-## 6. KPIs et Metriques
+## 6. Interface Utilisateur (Frontend)
+
+### 6.1 Presentation
+
+L'interface utilisateur est une Single Page Application Angular qui offre une experience fluide et immersive. Le design s'inspire de l'esthetique japonaise avec une palette de couleurs sombre (sidebar) et claire (contenu), des elements de decoration sakura, et une typographie Noto Sans JP.
+
+### 6.2 Pages et Fonctionnalites
+
+| Page | Fonctionnalites |
+|------|-----------------|
+| **Login** | Connexion avec email/mot de passe, branding visuel avec panel gauche decoratif |
+| **Dashboard** | Salutation personnalisee, statistiques en temps reel (lecons, XP, score), modules d'apprentissage rapides, activite recente, recommandations, cercle de progression, calendrier d'activite, streak, notifications |
+| **Lecons** | Liste filtrable par type (Hiragana, Katakana, Kanji, Grammar, Vocabulary, Culture) et par niveau (N5-N1), detail d'une lecon avec bouton de completion |
+| **Vocabulaire** | 3 onglets (Tout/A reviser/Quiz), fiches avec japonais/romaji/traduction, systeme SRS |
+| **Quiz** | Liste des quiz disponibles, historique des tentatives, player interactif avec barre de progression, streaks et score temps reel |
+| **Simulation entretien** | Formulaire de demarrage (type, difficulte), flux question/reponse en temps reel, feedback multi-dimensionnel |
+| **Correction IA** | Zone de saisie avec selection de contexte, affichage du score sur 6 dimensions avec jauges, annotations positionnees |
+| **Progression** | Header XP/niveau, grille de progression par module, statistiques 7j/30j, timeline d'activite, zones faibles |
+| **Generateur CV** | Formulaire de profil (2 colonnes), generation par regles ou IA (Claude), affichage des pitches generes |
+| **Notifications** | Liste avec filtres (toutes/non lues), marquage individuel et batch, compteur dans la sidebar |
+
+### 6.3 Navigation
+
+- **Sidebar fixe** : Logo NihongoDev, 8 liens de navigation avec icones SVG, badge de notification en temps reel, profil utilisateur avec avatar et XP
+- **Layout responsif** : Grid 2 colonnes sur le dashboard (contenu principal + panneau droit)
+- **Routing** : Lazy-loading de tous les modules, garde d'authentification sur toutes les routes sauf login
+
+### 6.4 Experience Utilisateur
+
+| Element | Implementation |
+|---------|---------------|
+| Etats de chargement | Skeletons animes sur les cartes de statistiques et listes |
+| Feedback visuel | Badges colores, animations hover, transitions CSS |
+| Donnees temps reel | Appels API au chargement du dashboard, compteur de notifications dynamique |
+| Branding japonais | Decorations sakura, caracteres japonais dans les modules, emoji drapeau 🇯🇵 |
+| Gamification visuelle | Cercle de progression SVG, streak avec flamme 🔥, badges de couleur |
+
+---
+
+## 7. KPIs et Metriques
 
 | Metrique | Description |
 |----------|-------------|

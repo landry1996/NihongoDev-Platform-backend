@@ -560,3 +560,64 @@ Mentorer en japonais                      → Niveau N1
 | Notifications | Rappels d'inactivite |
 | Recommandations | Guidance personnalisee |
 | Portfolio | Objectif concret (emploi) |
+
+---
+
+## 10. Interface Utilisateur et Experience d'Apprentissage
+
+### 10.1 Design Pedagogique de l'Interface
+
+L'interface a ete concue pour soutenir l'apprentissage :
+
+| Principe UX | Application pedagogique |
+|-------------|------------------------|
+| Salutation en japonais | Immersion des l'ouverture (おはようございます) |
+| Caracteres japonais dans la navigation | Familiarisation passive avec les kana |
+| Modules visuels (あ, カ, 日, IT, +) | Association visuelle avec le contenu |
+| Cercle de progression | Objectif tangible, motivation par la completion |
+| Streak visible en permanence | Renforcement de l'habitude quotidienne |
+| Calendrier d'activite | Visualisation de la regularite |
+| Recommandations personnalisees | Orientation pedagogique sans effort |
+
+### 10.2 Parcours Utilisateur dans l'Interface
+
+```
+Login → Dashboard (vue d'ensemble)
+           │
+           ├── Modules rapides (Hiragana, Katakana, Kanji, IT, Extension)
+           │       → Acces direct au contenu d'apprentissage
+           │
+           ├── Statistiques (Lecons, XP, Score)
+           │       → Feedback immediat sur la progression
+           │
+           ├── Activite recente
+           │       → Rappel de ce qui a ete fait
+           │
+           ├── Recommandations
+           │       → Guidance vers la prochaine etape
+           │
+           └── Panneau droit
+                   ├── Progression circulaire → Vue globale
+                   ├── Calendrier → Regularite
+                   ├── Streak → Motivation
+                   └── Notifications → Recompenses et rappels
+```
+
+### 10.3 Feedback Visuel et Gamification dans l'UI
+
+| Element visuel | Role pedagogique |
+|---------------|-----------------|
+| Skeletons de chargement | Anticiper le contenu, reduire l'impatience |
+| Couleurs par module (rouge=grammaire, or=vocabulaire, vert=kanji, bleu=culture) | Categorisation visuelle facilitant la memorisation |
+| Animation hover sur les modules | Interactivite, encouragement au clic |
+| Badge de notification animé | Sentiment d'accomplissement et d'avancement |
+| Score en pourcentage | Objectif quantifiable |
+| Flamme du streak 🔥 | Gamification emotionnelle |
+
+### 10.4 Accessibilite de l'Apprentissage
+
+- **Navigation claire** : Sidebar avec 8 sections bien identifiees par icones
+- **Hiérarchie visuelle** : Titres en japonais + sous-titres en francais
+- **Etats vides** : Messages d'encouragement quand aucune activite ("Aucune activite recente")
+- **Responsive** : Adaptation mobile pour apprendre en deplacement
+- **Charge cognitive reduite** : Une seule page visible a la fois, navigation laterale persistante
