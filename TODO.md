@@ -1,6 +1,6 @@
 # NihongoDev Platform — TODO
 
-Last updated: 2026-05-08
+Last updated: 2026-05-12
 
 ---
 
@@ -390,12 +390,22 @@ Last updated: 2026-05-08
 - [x] Full hexagonal architecture (ports IN/OUT, adapters, JPA entities, mappers)
 - [x] 32 new tests passing (400 total)
 
-## TODO — BLOC 14: Portfolio & Recruiter (Innovation)
+## DONE — BLOC 14: Portfolio & Recruiter (Innovation) ✅
 
-- [ ] PublicProfile domain model
-- [ ] Badge system
-- [ ] Portfolio sharing
-- [ ] RecruiterController
+- [x] PublicProfile domain model (visibility controls: PUBLIC/RECRUITERS_ONLY/PRIVATE, openToWork toggle, max 6 showcased badges)
+- [x] Badge system (Badge, UserBadge, BadgeCategory, BadgeRarity, 16 seed badges across 5 categories)
+- [x] Badge lifecycle (AwardBadgeUseCase with event publishing, ShowcaseBadge/Unshowcase, GetBadgeCatalog, GetUserBadges)
+- [x] PublicProfile CRUD (CreatePublicProfile with slug uniqueness, UpdatePublicProfile, GetPublicProfile by slug/userId)
+- [x] Portfolio sharing (profile visibility rules, ToggleOpenToWork, highlighted skills, stats tracking)
+- [x] RecruiterController (search profiles by minLevel/skill/openToWork with pagination, view profiles by slug)
+- [x] PortfolioController (9 endpoints: create/update/get profile, toggle open-to-work, badges, catalog, showcase/unshowcase)
+- [x] PortfolioMapper (domain-to-DTO for PublicProfile, Badge, UserBadge)
+- [x] Full hexagonal architecture (3 ports OUT, 7 ports IN, JPA entities, persistence mappers, repository adapters)
+- [x] EntityManager-based search with dynamic JPQL (level filtering, openToWork, visibility, pagination)
+- [x] Flyway V12 migration (badges, user_badges, public_profiles tables + indexes + 16 badge seeds)
+- [x] Domain event: BadgeEarnedEvent (published to badge-events Kafka topic)
+- [x] Unit tests: PublicProfileTest (7), BadgeTest (1), UserBadgeTest (2), CreatePublicProfileUseCaseTest (2), AwardBadgeUseCaseTest (2), ShowcaseBadgeUseCaseTest (2), SearchProfilesUseCaseTest (2)
+- [x] Compilation verified OK (418 total tests pass, 0 failures)
 
 ## TODO — BLOC 15: Notification & CV Generator
 
@@ -439,4 +449,4 @@ Last updated: 2026-05-08
 
 ## NEXT BLOC
 
-**BLOC 11: Cultural Intelligence (Innovation)** — Cultural scenarios, keigo validation, and cultural scoring for Japanese workplace situations.
+**BLOC 15: Notification & CV Generator** — Kafka event consumers for notifications, email service, and LLM-based CV generation.
